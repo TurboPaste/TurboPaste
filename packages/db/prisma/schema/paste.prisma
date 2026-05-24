@@ -1,0 +1,55 @@
+model Paste {
+  id            String    @id
+  title         String?
+  content       String
+  language      String    @default("plaintext")
+  visibility    String    @default("public")
+  burnAfterRead Boolean   @default(false)
+  passwordHash  String?
+  expiresAt     DateTime?
+  views         Int       @default(0)
+  hidden        Boolean   @default(false)
+  hiddenReason  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        String?
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  reports       Report[]
+
+  @@index([userId])
+  @@index([visibility, hidden, createdAt])
+  @@index([expiresAt])
+  @@map("paste")
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  pasteId    String
+  paste      Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
+  reporterId String?
+  reporter   User?    @relation(fields: [reporterId], references: [id], onDelete: SetNull)
+  reporterIp String?
+  reason     String
+  details    String?
+  status     String   @default("open")
+  createdAt  DateTime @default(now())
+
+  @@index([pasteId])
+  @@index([status, createdAt])
+  @@map("report")
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  prefix     String
+  hash       String    @unique
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+  revokedAt  DateTime?
+
+  @@index([userId])
+  @@map("api_key")
+}
