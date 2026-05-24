@@ -1,0 +1,31 @@
+{
+	"dependencies": {
+		"@prisma/client": "catalog:",
+		"@trpc/client": "catalog:",
+		"@trpc/server": "catalog:",
+		"@turbopaste/auth": "workspace:*",
+		"@turbopaste/db": "workspace:*",
+		"@turbopaste/env": "workspace:*",
+		"dotenv": "catalog:",
+		"nanoid": "^5.1.11",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@turbopaste/config": "workspace:*",
+		"hono": "catalog:",
+		"typescript": "catalog:"
+	},
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"license": "AGPL-3.0-or-later",
+	"name": "@turbopaste/api",
+	"private": true,
+	"scripts": {},
+	"type": "module"
+}
