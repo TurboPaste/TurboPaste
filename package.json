@@ -1,0 +1,76 @@
+{
+	"author": {
+		"email": "turbopaste@338.rocks",
+		"name": "Barış DEMİRCİ",
+		"url": "https://338.rocks"
+	},
+	"bugs": {
+		"url": "https://github.com/TurboPaste/TurboPaste/issues"
+	},
+	"dependencies": {
+		"@turbopaste/env": "workspace:*",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"description": "A futuristic, self-hostable pastebin with syntax highlighting, expirations, password protection, burn-after-read, and a public REST API.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15",
+		"@turbopaste/config": "workspace:*",
+		"@types/node": "catalog:",
+		"actions-up": "^1.14.2",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.0.5",
+		"taze": "^19.13.0",
+		"turbo": "^2.9.14",
+		"typescript": "catalog:"
+	},
+	"homepage": "https://github.com/TurboPaste/TurboPaste#readme",
+	"keywords": [
+		"pastebin",
+		"paste",
+		"snippets",
+		"hono",
+		"trpc",
+		"prisma",
+		"tanstack-router",
+		"better-auth",
+		"self-hosted"
+	],
+	"license": "AGPL-3.0-or-later",
+	"lint-staged": {
+		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+			"biome check --write --files-ignore-unknown=true"
+		]
+	},
+	"name": "turbopaste",
+	"packageManager": "pnpm@11.3.0",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TurboPaste/TurboPaste.git"
+	},
+	"scripts": {
+		"build": "turbo build",
+		"check": "biome check --write .",
+		"check-types": "turbo check-types",
+		"db:down": "turbo -F @turbopaste/db db:down",
+		"db:generate": "turbo -F @turbopaste/db db:generate",
+		"db:migrate": "turbo -F @turbopaste/db db:migrate",
+		"db:push": "turbo -F @turbopaste/db db:push",
+		"db:start": "turbo -F @turbopaste/db db:start",
+		"db:stop": "turbo -F @turbopaste/db db:stop",
+		"db:studio": "turbo -F @turbopaste/db db:studio",
+		"db:watch": "turbo -F @turbopaste/db db:watch",
+		"dev": "turbo dev",
+		"dev:server": "turbo -F server dev",
+		"dev:web": "turbo -F web dev",
+		"format": "biome format . --write",
+		"prepare": "husky",
+		"update": "actions-up --include-branches && taze latest -r -w"
+	},
+	"type": "module",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
+}

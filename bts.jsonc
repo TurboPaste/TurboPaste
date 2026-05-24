@@ -1,0 +1,38 @@
+// Better-T-Stack
+//
+// Website: https://www.better-t-stack.dev/
+// Stack Builder: https://www.better-t-stack.dev/new
+// Analytics: https://www.better-t-stack.dev/analytics
+// Showcase: https://www.better-t-stack.dev/showcase
+// Sponsor: https://github.com/sponsors/AmanVarshney01
+//
+// Add new addons with: pnpm dlx create-better-t-stack add
+// This file is safe to delete
+{
+	"$schema": "https://r2.better-t-stack.dev/schema.json",
+	"addons": [
+		"biome",
+		"evlog",
+		"husky",
+		"pwa",
+		"skills",
+		"starlight",
+		"turborepo"
+	],
+	"api": "trpc",
+	"auth": "better-auth",
+	"backend": "hono",
+	"createdAt": "2026-05-24T12:52:51.042Z",
+	"database": "postgres",
+	"dbSetup": "docker",
+	"examples": ["todo"],
+	"frontend": ["tanstack-router"],
+	"orm": "prisma",
+	"packageManager": "pnpm",
+	"payments": "none",
+	"reproducibleCommand": "pnpm create better-t-stack@latest turbopaste --frontend tanstack-router --backend hono --runtime node --database postgres --orm prisma --api trpc --auth better-auth --payments none --addons biome evlog husky pwa skills starlight turborepo --examples todo --db-setup docker --web-deploy none --server-deploy none --git --package-manager pnpm --install",
+	"runtime": "node",
+	"serverDeploy": "none",
+	"version": "3.29.0",
+	"webDeploy": "none"
+}
