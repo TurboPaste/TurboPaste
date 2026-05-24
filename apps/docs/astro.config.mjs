@@ -61,6 +61,10 @@ export default defineConfig({
 							label: "Self-hosting",
 							slug: "reference/self-hosting",
 						},
+						{
+							label: "Localization",
+							slug: "reference/localization",
+						},
 					],
 					label: "Reference",
 				},

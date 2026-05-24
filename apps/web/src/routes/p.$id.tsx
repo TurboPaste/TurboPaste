@@ -32,6 +32,7 @@ import {
 	Trash2,
 } from "lucide-react";
 import { type FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { CodeBlock } from "@/components/code-block";
 import { authClient } from "@/lib/auth-client";
@@ -55,12 +56,12 @@ type PasteData = {
 };
 
 const REPORT_REASONS = [
-	{ label: "Spam", value: "spam" },
-	{ label: "Malware", value: "malware" },
-	{ label: "Phishing", value: "phishing" },
-	{ label: "Illegal content", value: "illegal" },
-	{ label: "Personal information", value: "personal-info" },
-	{ label: "Other", value: "other" },
+	"spam",
+	"malware",
+	"phishing",
+	"illegal",
+	"personal-info",
+	"other",
 ] as const;
 
 const fmtDate = (d: string | Date | null | undefined) => {
@@ -76,6 +77,7 @@ const PasteView: FC = () => {
 	const { id } = Route.useParams();
 	const navigate = useNavigate();
 	const { data: session } = authClient.useSession();
+	const { t } = useTranslation();
 
 	const meta = useQuery(trpc.paste.meta.queryOptions({ id }));
 
@@ -87,16 +89,16 @@ const PasteView: FC = () => {
 		trpc.paste.get.mutationOptions({
 			onError: (e) => {
 				if (e.data?.code === "UNAUTHORIZED")
-					toast.error("Password required or incorrect");
+					toast.error(t("paste.toasts.passwordRequired"));
 				else if (e.data?.code === "NOT_FOUND")
-					toast.error("Paste not found or expired");
+					toast.error(t("paste.toasts.notFound"));
 				else toast.error(e.message);
 			},
 			onSuccess: (paste) => {
 				setData(paste as PasteData);
 				setUnlocked(true);
 				if ((paste as PasteData).burned)
-					toast.info("🔥 This paste was burned after read");
+					toast.info(t("paste.toasts.burned"));
 			},
 		}),
 	);
@@ -109,19 +111,21 @@ const PasteView: FC = () => {
 	if (meta.isLoading)
 		return (
 			<div className="mx-auto max-w-4xl px-4 py-20 text-center text-muted-foreground">
-				Loading...
+				{t("paste.loading")}
 			</div>
 		);
 
 	if (meta.error || !meta.data)
 		return (
 			<div className="mx-auto max-w-4xl px-4 py-20 text-center">
-				<h1 className="font-semibold text-2xl">Paste not found</h1>
+				<h1 className="font-semibold text-2xl">
+					{t("paste.notFoundTitle")}
+				</h1>
 				<p className="mt-2 text-muted-foreground">
-					It may have expired or been removed.
+					{t("paste.notFoundDescription")}
 				</p>
 				<Link className="mt-6 inline-block underline" to="/">
-					Create a new paste
+					{t("paste.createNew")}
 				</Link>
 			</div>
 		);
@@ -182,6 +186,7 @@ const PasteHeader: FC<{
 	url: string;
 }> = ({ meta, onUnlockClick, url }) => {
 	const [copied, setCopied] = useState(false);
+	const { t } = useTranslation();
 
 	return (
 		<motion.div
@@ -192,19 +197,21 @@ const PasteHeader: FC<{
 		>
 			<div className="space-y-2">
 				<h1 className="font-semibold text-2xl tracking-tight">
-					{meta.title || "Untitled paste"}
+					{meta.title || t("paste.untitled")}
 				</h1>
 				<div className="flex flex-wrap items-center gap-2 text-muted-foreground text-xs">
 					<Badge variant="outline">{meta.language}</Badge>
 					<Badge variant="secondary">{meta.visibility}</Badge>
 					{meta.hasPassword && (
 						<Badge variant="outline">
-							<Lock className="size-3" /> Password
+							<Lock className="size-3" />{" "}
+							{t("paste.passwordBadge")}
 						</Badge>
 					)}
 					{meta.burnAfterRead && (
 						<Badge variant="destructive">
-							<Flame className="size-3" /> Burn after read
+							<Flame className="size-3" />{" "}
+							{t("paste.burnAfterReadBadge")}
 						</Badge>
 					)}
 					<span className="inline-flex items-center gap-1">
@@ -213,7 +220,9 @@ const PasteHeader: FC<{
 					</span>
 					{meta.expiresAt && (
 						<span className="inline-flex items-center gap-1">
-							expires {fmtDate(meta.expiresAt)}
+							{t("paste.expires", {
+								date: fmtDate(meta.expiresAt),
+							})}
 						</span>
 					)}
 				</div>
@@ -233,11 +242,12 @@ const PasteHeader: FC<{
 					) : (
 						<Copy className="size-3.5" />
 					)}
-					{copied ? "Copied" : "Copy link"}
+					{copied ? t("paste.copied") : t("paste.copyLink")}
 				</Button>
 				{meta.hasPassword && (
 					<Button onClick={onUnlockClick} size="sm" variant="outline">
-						<Lock className="size-3.5" /> Re-enter password
+						<Lock className="size-3.5" />{" "}
+						{t("paste.reenterPassword")}
 					</Button>
 				)}
 			</div>
@@ -251,10 +261,11 @@ const PasswordGate: FC<{
 	pending: boolean;
 }> = ({ hasPassword, onSubmit, pending }) => {
 	const [pw, setPw] = useState("");
+	const { t } = useTranslation();
 	if (!hasPassword)
 		return (
 			<div className="rounded-xl border border-border/60 bg-card/40 p-6 text-muted-foreground text-sm">
-				Loading paste...
+				{t("paste.loadingPaste")}
 			</div>
 		);
 
@@ -267,13 +278,15 @@ const PasswordGate: FC<{
 			}}
 		>
 			<h2 className="mb-1 flex items-center gap-2 font-semibold text-base">
-				<Lock className="size-4" /> Password required
+				<Lock className="size-4" /> {t("paste.passwordGate.title")}
 			</h2>
 			<p className="mb-4 text-muted-foreground text-sm">
-				This paste is password-protected.
+				{t("paste.passwordGate.description")}
 			</p>
 			<div className="space-y-2">
-				<Label htmlFor="pw">Password</Label>
+				<Label htmlFor="pw">
+					{t("paste.passwordGate.passwordLabel")}
+				</Label>
 				<Input
 					autoComplete="off"
 					autoFocus
@@ -284,7 +297,9 @@ const PasswordGate: FC<{
 				/>
 			</div>
 			<Button className="mt-4 w-full" disabled={pending} type="submit">
-				{pending ? "Unlocking..." : "Unlock"}
+				{pending
+					? t("paste.passwordGate.unlocking")
+					: t("paste.passwordGate.unlock")}
 			</Button>
 		</form>
 	);
@@ -292,6 +307,7 @@ const PasswordGate: FC<{
 
 const ReaderView: FC<{ data: PasteData }> = ({ data }) => {
 	const [copied, setCopied] = useState(false);
+	const { t } = useTranslation();
 	return (
 		<motion.div
 			animate={{ opacity: 1 }}
@@ -301,7 +317,8 @@ const ReaderView: FC<{ data: PasteData }> = ({ data }) => {
 		>
 			<div className="flex items-center justify-between text-muted-foreground text-xs">
 				<span className="inline-flex items-center gap-1.5">
-					<Eye className="size-3.5" /> {data.views ?? 0} views
+					<Eye className="size-3.5" />{" "}
+					{t("paste.reader.views", { count: data.views ?? 0 })}
 				</span>
 				<Button
 					onClick={async () => {
@@ -317,7 +334,7 @@ const ReaderView: FC<{ data: PasteData }> = ({ data }) => {
 					) : (
 						<Copy className="size-3.5" />
 					)}
-					{copied ? "Copied" : "Copy content"}
+					{copied ? t("paste.copied") : t("paste.reader.copyContent")}
 				</Button>
 			</div>
 			<CodeBlock code={data.content} language={data.language} />
@@ -335,12 +352,13 @@ const OwnerView: FC<{
 	const [title, setTitle] = useState(initial.title ?? "");
 	const [language, setLanguage] = useState(initial.language);
 	const [visibility, setVisibility] = useState(initial.visibility);
+	const { t } = useTranslation();
 
 	const update = useMutation(
 		trpc.paste.update.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Saved");
+				toast.success(t("paste.toasts.saved"));
 				setEditing(false);
 				onUpdate({ content, language, title, visibility });
 			},
@@ -351,7 +369,7 @@ const OwnerView: FC<{
 		trpc.paste.delete.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Paste deleted");
+				toast.success(t("paste.toasts.deleted"));
 				onDelete();
 			},
 		}),
@@ -367,7 +385,10 @@ const OwnerView: FC<{
 			>
 				<div className="flex flex-wrap items-center justify-between gap-2 text-muted-foreground text-xs">
 					<span className="inline-flex items-center gap-1.5">
-						<Eye className="size-3.5" /> {initial.views ?? 0} views
+						<Eye className="size-3.5" />{" "}
+						{t("paste.owner.viewsCount", {
+							count: initial.views ?? 0,
+						})}
 					</span>
 					<div className="flex gap-2">
 						<Button
@@ -375,23 +396,21 @@ const OwnerView: FC<{
 							size="sm"
 							variant="outline"
 						>
-							<Pencil className="size-3.5" /> Edit
+							<Pencil className="size-3.5" />{" "}
+							{t("paste.owner.edit")}
 						</Button>
 						<Button
 							disabled={del.isPending}
 							onClick={() => {
-								if (
-									confirm(
-										"Delete this paste? This cannot be undone.",
-									)
-								) {
+								if (confirm(t("paste.owner.confirmDelete"))) {
 									del.mutate({ id: initial.id });
 								}
 							}}
 							size="sm"
 							variant="destructive"
 						>
-							<Trash2 className="size-3.5" /> Delete
+							<Trash2 className="size-3.5" />{" "}
+							{t("paste.owner.delete")}
 						</Button>
 					</div>
 				</div>
@@ -415,14 +434,14 @@ const OwnerView: FC<{
 		>
 			<div className="grid gap-3 md:grid-cols-[1fr_180px_160px]">
 				<div className="space-y-1.5">
-					<Label>Title</Label>
+					<Label>{t("paste.owner.titleLabel")}</Label>
 					<Input
 						onChange={(e) => setTitle(e.target.value)}
 						value={title}
 					/>
 				</div>
 				<div className="space-y-1.5">
-					<Label>Language</Label>
+					<Label>{t("paste.owner.languageLabel")}</Label>
 					<Select onValueChange={setLanguage} value={language}>
 						<SelectTrigger>
 							<SelectValue />
@@ -437,7 +456,7 @@ const OwnerView: FC<{
 					</Select>
 				</div>
 				<div className="space-y-1.5">
-					<Label>Visibility</Label>
+					<Label>{t("paste.owner.visibilityLabel")}</Label>
 					<Select
 						onValueChange={(v) =>
 							setVisibility(v as typeof visibility)
@@ -448,9 +467,15 @@ const OwnerView: FC<{
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="public">public</SelectItem>
-							<SelectItem value="unlisted">unlisted</SelectItem>
-							<SelectItem value="private">private</SelectItem>
+							<SelectItem value="public">
+								{t("home.visibilities.public.label")}
+							</SelectItem>
+							<SelectItem value="unlisted">
+								{t("home.visibilities.unlisted.label")}
+							</SelectItem>
+							<SelectItem value="private">
+								{t("home.visibilities.private.label")}
+							</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
@@ -472,11 +497,13 @@ const OwnerView: FC<{
 					type="button"
 					variant="ghost"
 				>
-					Cancel
+					{t("paste.owner.cancel")}
 				</Button>
 				<Button disabled={update.isPending} type="submit">
 					<Save className="size-3.5" />
-					{update.isPending ? "Saving..." : "Save changes"}
+					{update.isPending
+						? t("paste.owner.saving")
+						: t("paste.owner.saveChanges")}
 				</Button>
 			</div>
 		</form>
@@ -491,12 +518,13 @@ const ReportSection: FC<{
 	const [open, setOpen] = useState(false);
 	const [reason, setReason] = useState<string>("spam");
 	const [details, setDetails] = useState("");
+	const { t } = useTranslation();
 
 	const submit = useMutation(
 		trpc.report.submit.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Report submitted — thank you");
+				toast.success(t("report.submitted"));
 				setOpen(false);
 				setDetails("");
 			},
@@ -509,12 +537,12 @@ const ReportSection: FC<{
 		<>
 			<div className="mt-8 flex items-center justify-center">
 				<Button onClick={() => setOpen(true)} size="sm" variant="ghost">
-					<Flag className="size-3.5" /> Report this paste
+					<Flag className="size-3.5" /> {t("report.open")}
 				</Button>
 			</div>
 			<Dialog onClose={() => setOpen(false)} open={open}>
 				<DialogHeader>
-					<DialogTitle>Report paste</DialogTitle>
+					<DialogTitle>{t("report.dialogTitle")}</DialogTitle>
 				</DialogHeader>
 				<form
 					className="space-y-3"
@@ -528,26 +556,26 @@ const ReportSection: FC<{
 					}}
 				>
 					<div className="space-y-1.5">
-						<Label>Reason</Label>
+						<Label>{t("report.reasonLabel")}</Label>
 						<Select onValueChange={setReason} value={reason}>
 							<SelectTrigger>
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								{REPORT_REASONS.map((r) => (
-									<SelectItem key={r.value} value={r.value}>
-										{r.label}
+								{REPORT_REASONS.map((value) => (
+									<SelectItem key={value} value={value}>
+										{t(`report.reasons.${value}`)}
 									</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
 					</div>
 					<div className="space-y-1.5">
-						<Label>Details (optional)</Label>
+						<Label>{t("report.detailsLabel")}</Label>
 						<Textarea
 							maxLength={500}
 							onChange={(e) => setDetails(e.target.value)}
-							placeholder="Anything that would help moderators..."
+							placeholder={t("report.detailsPlaceholder")}
 							value={details}
 						/>
 					</div>
@@ -557,10 +585,12 @@ const ReportSection: FC<{
 							type="button"
 							variant="ghost"
 						>
-							Cancel
+							{t("report.cancel")}
 						</Button>
 						<Button disabled={submit.isPending} type="submit">
-							{submit.isPending ? "Sending..." : "Submit report"}
+							{submit.isPending
+								? t("report.submitting")
+								: t("report.submit")}
 						</Button>
 					</div>
 				</form>

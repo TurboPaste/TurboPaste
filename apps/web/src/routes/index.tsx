@@ -14,30 +14,21 @@ import { Textarea } from "@turbopaste/ui/components/textarea";
 import { motion } from "framer-motion";
 import { ArrowRight, Flame, Lock } from "lucide-react";
 import { type FC, type FormEvent, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { LANGUAGES } from "@/lib/languages";
 import { trpc } from "@/utils/trpc";
 
-const EXPIRATIONS = [
-	{ label: "Never", value: "never" },
-	{ label: "10 minutes", value: "10m" },
-	{ label: "1 hour", value: "1h" },
-	{ label: "1 day", value: "1d" },
-	{ label: "1 week", value: "1w" },
-] as const;
-
-const VISIBILITIES = [
-	{ desc: "Listed in your dashboard", label: "Public", value: "public" },
-	{ desc: "Only people with the link", label: "Unlisted", value: "unlisted" },
-	{ desc: "Sign-in required (you only)", label: "Private", value: "private" },
-] as const;
+const EXPIRATIONS = ["never", "10m", "1h", "1d", "1w"] as const;
+const VISIBILITIES = ["public", "unlisted", "private"] as const;
 
 const MAX_BYTES = 1024 * 1024;
 
 const HomeComponent: FC = () => {
 	const navigate = useNavigate();
 	const { data: session } = authClient.useSession();
+	const { t } = useTranslation();
 
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
@@ -56,7 +47,7 @@ const HomeComponent: FC = () => {
 		trpc.paste.create.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: (p) => {
-				toast.success("Paste created");
+				toast.success(t("home.toasts.created"));
 				navigate({ params: { id: p.id }, to: "/p/$id" });
 			},
 		}),
@@ -67,12 +58,12 @@ const HomeComponent: FC = () => {
 	function submit(e: FormEvent) {
 		e.preventDefault();
 		if (!content.trim()) {
-			toast.error("Content is required");
+			toast.error(t("home.toasts.contentRequired"));
 			return;
 		}
 
 		if (over) {
-			toast.error("Content exceeds 1MB");
+			toast.error(t("home.toasts.contentTooLarge"));
 			return;
 		}
 
@@ -96,12 +87,9 @@ const HomeComponent: FC = () => {
 				transition={{ duration: 0.4 }}
 			>
 				<h1 className="font-semibold text-4xl text-gradient tracking-tight md:text-5xl">
-					Paste at the speed of thought.
+					{t("home.heading")}
 				</h1>
-				<p className="text-muted-foreground">
-					A futuristic pastebin with syntax highlighting, expirations,
-					password protection and a public API.
-				</p>
+				<p className="text-muted-foreground">{t("home.subtitle")}</p>
 			</motion.div>
 
 			<motion.form
@@ -113,17 +101,17 @@ const HomeComponent: FC = () => {
 			>
 				<div className="mb-4 grid gap-4 md:grid-cols-[1fr_180px_160px]">
 					<div className="space-y-1.5">
-						<Label htmlFor="title">Title</Label>
+						<Label htmlFor="title">{t("home.titleLabel")}</Label>
 						<Input
 							id="title"
 							maxLength={120}
 							onChange={(e) => setTitle(e.target.value)}
-							placeholder="untitled"
+							placeholder={t("home.titlePlaceholder")}
 							value={title}
 						/>
 					</div>
 					<div className="space-y-1.5">
-						<Label htmlFor="lang">Language</Label>
+						<Label htmlFor="lang">{t("home.languageLabel")}</Label>
 						<Select onValueChange={setLanguage} value={language}>
 							<SelectTrigger id="lang">
 								<SelectValue />
@@ -138,7 +126,7 @@ const HomeComponent: FC = () => {
 						</Select>
 					</div>
 					<div className="space-y-1.5">
-						<Label htmlFor="exp">Expiration</Label>
+						<Label htmlFor="exp">{t("home.expirationLabel")}</Label>
 						<Select
 							onValueChange={setExpiration}
 							value={expiration}
@@ -147,9 +135,9 @@ const HomeComponent: FC = () => {
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								{EXPIRATIONS.map((e) => (
-									<SelectItem key={e.value} value={e.value}>
-										{e.label}
+								{EXPIRATIONS.map((value) => (
+									<SelectItem key={value} value={value}>
+										{t(`home.expirations.${value}`)}
 									</SelectItem>
 								))}
 							</SelectContent>
@@ -160,25 +148,27 @@ const HomeComponent: FC = () => {
 				<Textarea
 					className="min-h-[340px] font-mono text-sm leading-relaxed"
 					onChange={(e) => setContent(e.target.value)}
-					placeholder="// paste your content here"
+					placeholder={t("home.contentPlaceholder")}
 					value={content}
 				/>
 
 				<div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-muted-foreground text-xs">
 					<span className={over ? "text-destructive" : ""}>
-						{bytes.toLocaleString()} / {MAX_BYTES.toLocaleString()}{" "}
-						bytes
+						{t("home.bytesCount", {
+							current: bytes.toLocaleString(),
+							max: MAX_BYTES.toLocaleString(),
+						})}
 					</span>
 				</div>
 
 				<div className="mt-5 grid gap-4 md:grid-cols-2">
 					<div className="space-y-1.5">
-						<Label>Visibility</Label>
+						<Label>{t("home.visibilityLabel")}</Label>
 						<div className="grid gap-2">
-							{VISIBILITIES.map((v) => {
+							{VISIBILITIES.map((value) => {
 								const disabled =
-									v.value === "private" && !session;
-								const active = visibility === v.value;
+									value === "private" && !session;
+								const active = visibility === value;
 								return (
 									<button
 										className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
@@ -187,22 +177,26 @@ const HomeComponent: FC = () => {
 												: "border-border hover:border-border/80 hover:bg-muted/40"
 										} ${disabled ? "cursor-not-allowed opacity-40" : ""}`}
 										disabled={disabled}
-										key={v.value}
-										onClick={() => setVisibility(v.value)}
+										key={value}
+										onClick={() => setVisibility(value)}
 										type="button"
 									>
 										<div className="flex items-center justify-between">
 											<span className="font-medium">
-												{v.label}
+												{t(
+													`home.visibilities.${value}.label`,
+												)}
 											</span>
 											{disabled && (
 												<span className="text-[10px] text-muted-foreground uppercase">
-													Sign in
+													{t("home.visibilitySignIn")}
 												</span>
 											)}
 										</div>
 										<div className="text-muted-foreground text-xs">
-											{v.desc}
+											{t(
+												`home.visibilities.${value}.description`,
+											)}
 										</div>
 									</button>
 								);
@@ -216,14 +210,14 @@ const HomeComponent: FC = () => {
 								className="flex items-center gap-1.5"
 								htmlFor="pw"
 							>
-								<Lock className="size-3.5" /> Password
-								(optional)
+								<Lock className="size-3.5" />{" "}
+								{t("home.passwordLabel")}
 							</Label>
 							<Input
 								autoComplete="new-password"
 								id="pw"
 								onChange={(e) => setPassword(e.target.value)}
-								placeholder="********"
+								placeholder={t("home.passwordPlaceholder")}
 								type="password"
 								value={password}
 							/>
@@ -238,10 +232,10 @@ const HomeComponent: FC = () => {
 							<span>
 								<span className="flex items-center gap-1.5 font-medium">
 									<Flame className="size-3.5 text-orange-400" />{" "}
-									Burn after read
+									{t("home.burnAfterRead")}
 								</span>
 								<span className="text-muted-foreground text-xs">
-									Deletes the paste after the first view.
+									{t("home.burnAfterReadDescription")}
 								</span>
 							</span>
 						</label>
@@ -251,8 +245,10 @@ const HomeComponent: FC = () => {
 				<div className="mt-6 flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
 					<p className="text-muted-foreground text-xs">
 						{session
-							? `Signed in as ${session.user.name}. This paste will be saved to your account.`
-							: "Posting anonymously. This paste will be read-only forever."}
+							? t("home.footerSignedIn", {
+									name: session.user.name,
+								})
+							: t("home.footerAnonymous")}
 					</p>
 					<Button
 						className="group/btn h-10 px-5 text-sm"
@@ -263,8 +259,8 @@ const HomeComponent: FC = () => {
 						type="submit"
 					>
 						{createPaste.isPending
-							? "Publishing..."
-							: "Publish paste"}
+							? t("home.publishing")
+							: t("home.publish")}
 						<ArrowRight className="size-4 transition-transform group-hover/btn:translate-x-0.5" />
 					</Button>
 				</div>

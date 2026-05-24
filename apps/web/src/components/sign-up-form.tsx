@@ -4,6 +4,7 @@ import { Button } from "@turbopaste/ui/components/button";
 import { Input } from "@turbopaste/ui/components/input";
 import { Label } from "@turbopaste/ui/components/label";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import z from "zod";
 import { authClient } from "@/lib/auth-client";
@@ -16,6 +17,7 @@ export const SignUpForm: FC<{
 		from: "/",
 	});
 	const { isPending } = authClient.useSession();
+	const { t } = useTranslation();
 
 	const form = useForm({
 		defaultValues: {
@@ -40,18 +42,18 @@ export const SignUpForm: FC<{
 						navigate({
 							to: "/dashboard",
 						});
-						toast.success("Sign up successful");
+						toast.success(t("auth.signUp.success"));
 					},
 				},
 			);
 		},
 		validators: {
 			onSubmit: z.object({
-				email: z.email("Invalid email address"),
-				name: z.string().min(2, "Name must be at least 2 characters"),
+				email: z.email(t("auth.signUp.errors.invalidEmail")),
+				name: z.string().min(2, t("auth.signUp.errors.nameTooShort")),
 				password: z
 					.string()
-					.min(8, "Password must be at least 8 characters"),
+					.min(8, t("auth.signUp.errors.passwordTooShort")),
 			}),
 		},
 	});
@@ -61,7 +63,7 @@ export const SignUpForm: FC<{
 	return (
 		<div className="mx-auto mt-10 w-full max-w-md p-6">
 			<h1 className="mb-6 text-center font-bold text-3xl">
-				Create Account
+				{t("auth.signUp.title")}
 			</h1>
 
 			<form
@@ -76,7 +78,9 @@ export const SignUpForm: FC<{
 					<form.Field name="name">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Name</Label>
+								<Label htmlFor={field.name}>
+									{t("auth.signUp.nameLabel")}
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
@@ -103,7 +107,9 @@ export const SignUpForm: FC<{
 					<form.Field name="email">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Email</Label>
+								<Label htmlFor={field.name}>
+									{t("auth.signUp.emailLabel")}
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
@@ -131,7 +137,9 @@ export const SignUpForm: FC<{
 					<form.Field name="password">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Password</Label>
+								<Label htmlFor={field.name}>
+									{t("auth.signUp.passwordLabel")}
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
@@ -167,7 +175,9 @@ export const SignUpForm: FC<{
 							disabled={!canSubmit || isSubmitting}
 							type="submit"
 						>
-							{isSubmitting ? "Submitting..." : "Sign Up"}
+							{isSubmitting
+								? t("auth.signUp.submitting")
+								: t("auth.signUp.submit")}
 						</Button>
 					)}
 				</form.Subscribe>
@@ -179,7 +189,7 @@ export const SignUpForm: FC<{
 					onClick={onSwitchToSignIn}
 					variant="link"
 				>
-					Already have an account? Sign In
+					{t("auth.signUp.switchToSignIn")}
 				</Button>
 			</div>
 		</div>

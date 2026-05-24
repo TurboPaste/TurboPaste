@@ -1,0 +1,244 @@
+{
+	"admin": {
+		"anonymous": "anonymous",
+		"dismiss": "Dismiss",
+		"empty": "No reports with status “{{status}}”.",
+		"filters": {
+			"actioned": "actioned",
+			"dismissed": "dismissed",
+			"open": "open"
+		},
+		"hidden": "Hidden",
+		"hide": "Hide",
+		"loading": "Loading...",
+		"markActioned": "Mark actioned",
+		"reporter": "Reporter: {{value}}",
+		"subtitle": "Review reported pastes.",
+		"title": "Moderation",
+		"toasts": {
+			"pasteHidden": "Paste hidden",
+			"pasteRestored": "Paste restored"
+		},
+		"unhide": "Unhide",
+		"untitled": "Untitled paste"
+	},
+	"auth": {
+		"signIn": {
+			"emailLabel": "Email",
+			"errors": {
+				"invalidEmail": "Invalid email address",
+				"passwordTooShort": "Password must be at least 8 characters"
+			},
+			"passwordLabel": "Password",
+			"submit": "Sign In",
+			"submitting": "Submitting...",
+			"success": "Sign in successful",
+			"switchToSignUp": "Need an account? Sign Up",
+			"title": "Welcome Back"
+		},
+		"signUp": {
+			"emailLabel": "Email",
+			"errors": {
+				"invalidEmail": "Invalid email address",
+				"nameTooShort": "Name must be at least 2 characters",
+				"passwordTooShort": "Password must be at least 8 characters"
+			},
+			"nameLabel": "Name",
+			"passwordLabel": "Password",
+			"submit": "Sign Up",
+			"submitting": "Submitting...",
+			"success": "Sign up successful",
+			"switchToSignIn": "Already have an account? Sign In",
+			"title": "Create Account"
+		}
+	},
+	"common": {
+		"cancel": "Cancel",
+		"copied": "Copied",
+		"delete": "Delete",
+		"done": "Done",
+		"loading": "Loading...",
+		"save": "Save",
+		"untitled": "Untitled"
+	},
+	"dashboard": {
+		"active": "Active",
+		"apiKeyHint": "Use a key to authenticate against the public API at",
+		"apiKeys": "API keys",
+		"confirmRevoke": "Revoke this API key?",
+		"createDialog": {
+			"cancel": "Cancel",
+			"copyTitle": "Copy your API key",
+			"create": "Create key",
+			"createTitle": "Create API key",
+			"creating": "Creating...",
+			"done": "Done",
+			"nameLabel": "Name",
+			"namePlaceholder": "My CLI script",
+			"warning": "This is the only time you'll see this key. Store it somewhere safe."
+		},
+		"createFirst": "Create your first paste",
+		"hiddenBadge": "Hidden",
+		"keysTable": {
+			"lastUsed": "Last used",
+			"name": "Name",
+			"prefix": "Prefix",
+			"status": "Status"
+		},
+		"lastUsedNever": "never",
+		"loading": "Loading...",
+		"newKey": "New key",
+		"noKeys": "No API keys yet.",
+		"noPastes": "You haven't created any pastes yet.",
+		"revoked": "Revoked",
+		"table": {
+			"created": "Created",
+			"language": "Language",
+			"title": "Title",
+			"views": "Views",
+			"visibility": "Visibility"
+		},
+		"toasts": {
+			"keyRevoked": "Key revoked"
+		},
+		"yourPastes": "Your pastes"
+	},
+	"docs": {
+		"clickHere": "Click here",
+		"fallback": "if it doesn't happen automatically.",
+		"redirecting": "Redirecting to the docs..."
+	},
+	"header": {
+		"navAdmin": "Admin",
+		"navDashboard": "Dashboard",
+		"navDocs": "Docs",
+		"navNew": "New"
+	},
+	"home": {
+		"burnAfterRead": "Burn after read",
+		"burnAfterReadDescription": "Deletes the paste after the first view.",
+		"bytesCount": "{{current}} / {{max}} bytes",
+		"contentPlaceholder": "// paste your content here",
+		"expirationLabel": "Expiration",
+		"expirations": {
+			"1d": "1 day",
+			"1h": "1 hour",
+			"1w": "1 week",
+			"10m": "10 minutes",
+			"never": "Never"
+		},
+		"footerAnonymous": "Posting anonymously. This paste will be read-only forever.",
+		"footerSignedIn": "Signed in as {{name}}. This paste will be saved to your account.",
+		"heading": "Paste at the speed of thought.",
+		"languageLabel": "Language",
+		"passwordLabel": "Password (optional)",
+		"passwordPlaceholder": "********",
+		"publish": "Publish paste",
+		"publishing": "Publishing...",
+		"subtitle": "Share code and text with one blink. No ads, no tracking, just a simple and modern pastebin.",
+		"titleLabel": "Title",
+		"titlePlaceholder": "untitled",
+		"toasts": {
+			"contentRequired": "Content is required",
+			"contentTooLarge": "Content exceeds 1MB",
+			"created": "Paste created"
+		},
+		"visibilities": {
+			"private": {
+				"description": "Sign-in required (you only)",
+				"label": "Private"
+			},
+			"public": {
+				"description": "Listed in your dashboard",
+				"label": "Public"
+			},
+			"unlisted": {
+				"description": "Only people with the link",
+				"label": "Unlisted"
+			}
+		},
+		"visibilityLabel": "Visibility",
+		"visibilitySignIn": "Sign in"
+	},
+	"languageToggle": {
+		"label": "Select language"
+	},
+	"meta": {
+		"description": "TurboPaste - share code and text with a futuristic pastebin.",
+		"title": "TurboPaste - modern, futuristic pastebin"
+	},
+	"modeToggle": {
+		"dark": "Dark",
+		"label": "Toggle theme",
+		"light": "Light",
+		"system": "System"
+	},
+	"paste": {
+		"burnAfterReadBadge": "Burn after read",
+		"copied": "Copied",
+		"copyLink": "Copy link",
+		"createNew": "Create a new paste",
+		"expires": "expires {{date}}",
+		"loading": "Loading...",
+		"loadingPaste": "Loading paste...",
+		"notFoundDescription": "It may have expired or been removed.",
+		"notFoundTitle": "Paste not found",
+		"owner": {
+			"cancel": "Cancel",
+			"confirmDelete": "Delete this paste? This cannot be undone.",
+			"delete": "Delete",
+			"edit": "Edit",
+			"languageLabel": "Language",
+			"saveChanges": "Save changes",
+			"saving": "Saving...",
+			"titleLabel": "Title",
+			"viewsCount": "{{count}} views",
+			"visibilityLabel": "Visibility"
+		},
+		"passwordBadge": "Password",
+		"passwordGate": {
+			"description": "This paste is password-protected.",
+			"passwordLabel": "Password",
+			"title": "Password required",
+			"unlock": "Unlock",
+			"unlocking": "Unlocking..."
+		},
+		"reader": {
+			"copyContent": "Copy content",
+			"views": "{{count}} views"
+		},
+		"reenterPassword": "Re-enter password",
+		"toasts": {
+			"burned": "🔥 This paste was burned after read",
+			"deleted": "Paste deleted",
+			"notFound": "Paste not found or expired",
+			"passwordRequired": "Password required or incorrect",
+			"saved": "Saved"
+		},
+		"untitled": "Untitled paste"
+	},
+	"report": {
+		"cancel": "Cancel",
+		"detailsLabel": "Details (optional)",
+		"detailsPlaceholder": "Anything that would help moderators...",
+		"dialogTitle": "Report paste",
+		"open": "Report this paste",
+		"reasonLabel": "Reason",
+		"reasons": {
+			"illegal": "Illegal content",
+			"malware": "Malware",
+			"other": "Other",
+			"personal-info": "Personal information",
+			"phishing": "Phishing",
+			"spam": "Spam"
+		},
+		"submit": "Submit report",
+		"submitted": "Report submitted — thank you",
+		"submitting": "Sending..."
+	},
+	"userMenu": {
+		"myAccount": "My Account",
+		"signIn": "Sign In",
+		"signOut": "Sign Out"
+	}
+}

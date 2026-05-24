@@ -11,18 +11,20 @@ import {
 } from "@turbopaste/ui/components/dropdown-menu";
 import { Skeleton } from "@turbopaste/ui/components/skeleton";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { authClient } from "@/lib/auth-client";
 
 export const UserMenu: FC = () => {
 	const navigate = useNavigate();
 	const { data: session, isPending } = authClient.useSession();
+	const { t } = useTranslation();
 
 	if (isPending) return <Skeleton className="h-9 w-24" />;
 
 	if (!session)
 		return (
 			<Link to="/login">
-				<Button variant="outline">Sign In</Button>
+				<Button variant="outline">{t("userMenu.signIn")}</Button>
 			</Link>
 		);
 
@@ -33,7 +35,9 @@ export const UserMenu: FC = () => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-card">
 				<DropdownMenuGroup>
-					<DropdownMenuLabel>My Account</DropdownMenuLabel>
+					<DropdownMenuLabel>
+						{t("userMenu.myAccount")}
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>{session.user.email}</DropdownMenuItem>
 					<DropdownMenuItem
@@ -50,7 +54,7 @@ export const UserMenu: FC = () => {
 						}}
 						variant="destructive"
 					>
-						Sign Out
+						{t("userMenu.signOut")}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 			</DropdownMenuContent>

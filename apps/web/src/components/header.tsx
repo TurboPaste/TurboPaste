@@ -1,13 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { env } from "@turbopaste/env/web";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { authClient } from "@/lib/auth-client";
+import { LanguageToggle } from "./language-toggle";
 import { ModeToggle } from "./mode-toggle";
 import { UserMenu } from "./user-menu";
 
 export const Header: FC = () => {
 	const { data: session } = authClient.useSession();
 	const role = (session?.user as { role?: string } | undefined)?.role;
+	const { t } = useTranslation();
 
 	return (
 		<header className="sticky top-0 z-40 border-border/60 border-b bg-background/60 backdrop-blur-md">
@@ -26,7 +29,7 @@ export const Header: FC = () => {
 							className="rounded-md px-3 py-1.5 transition-colors hover:text-foreground"
 							to="/"
 						>
-							New
+							{t("header.navNew")}
 						</Link>
 						{session && (
 							<Link
@@ -34,7 +37,7 @@ export const Header: FC = () => {
 								className="rounded-md px-3 py-1.5 transition-colors hover:text-foreground"
 								to="/dashboard"
 							>
-								Dashboard
+								{t("header.navDashboard")}
 							</Link>
 						)}
 						<a
@@ -43,7 +46,7 @@ export const Header: FC = () => {
 							rel="noreferrer"
 							target="_blank"
 						>
-							Docs
+							{t("header.navDocs")}
 						</a>
 						{role === "admin" && (
 							<Link
@@ -51,13 +54,14 @@ export const Header: FC = () => {
 								className="rounded-md px-3 py-1.5 transition-colors hover:text-foreground"
 								to="/admin"
 							>
-								Admin
+								{t("header.navAdmin")}
 							</Link>
 						)}
 					</nav>
 				</div>
 				<div className="flex items-center gap-2">
 					<ModeToggle />
+					<LanguageToggle />
 					<UserMenu />
 				</div>
 			</div>

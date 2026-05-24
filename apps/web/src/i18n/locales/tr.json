@@ -1,0 +1,244 @@
+{
+	"admin": {
+		"anonymous": "anonim",
+		"dismiss": "kapat",
+		"empty": "\"{{status}}\" durumunda şikayet yok.",
+		"filters": {
+			"actioned": "işlem yapıldı",
+			"dismissed": "kapatıldı",
+			"open": "açık"
+		},
+		"hidden": "Gizli",
+		"hide": "Gizle",
+		"loading": "Yükleniyor...",
+		"markActioned": "İşlem yapıldı olarak işaretle",
+		"reporter": "Şikayetçi: {{value}}",
+		"subtitle": "Şikayet edilen pasteleri inceleyin.",
+		"title": "Moderasyon",
+		"toasts": {
+			"pasteHidden": "Paste gizli",
+			"pasteRestored": "Paste geri yüklendi"
+		},
+		"unhide": "Göster",
+		"untitled": "Başlıksız paste"
+	},
+	"auth": {
+		"signIn": {
+			"emailLabel": "E-posta",
+			"errors": {
+				"invalidEmail": "Geçersiz e-posta adresi",
+				"passwordTooShort": "Şifre en az 8 karakter olmalıdır"
+			},
+			"passwordLabel": "Şifre",
+			"submit": "Giriş Yap",
+			"submitting": "Giriş yapılıyor...",
+			"success": "Giriş başarılı",
+			"switchToSignUp": "Hesap oluştur",
+			"title": "Hoş Geldiniz"
+		},
+		"signUp": {
+			"emailLabel": "E-posta",
+			"errors": {
+				"invalidEmail": "Geçersiz e-posta adresi",
+				"nameTooShort": "İsim en az 2 karakter olmalıdır",
+				"passwordTooShort": "Şifre en az 8 karakter olmalıdır"
+			},
+			"nameLabel": "İsim",
+			"passwordLabel": "Şifre",
+			"submit": "Kayıt Ol",
+			"submitting": "Kayıt yapılıyor...",
+			"success": "Kayıt başarılı",
+			"switchToSignIn": "Zaten bir hesabınız var mı? Giriş Yap",
+			"title": "Hesap Oluştur"
+		}
+	},
+	"common": {
+		"cancel": "İptal",
+		"copied": "Kopyalandı",
+		"delete": "Sil",
+		"done": "Tamam",
+		"loading": "Yükleniyor...",
+		"save": "Kaydet",
+		"untitled": "Başlıksız"
+	},
+	"dashboard": {
+		"active": "Aktif",
+		"apiKeyHint": "Bir API anahtarı kullanarak genel API'ye şuradan erişin: ",
+		"apiKeys": "API anahtarları",
+		"confirmRevoke": "Bu API anahtarını iptal et?",
+		"createDialog": {
+			"cancel": "İptal",
+			"copyTitle": "API anahtarınızı kopyalayın",
+			"create": "Anahtar oluştur",
+			"createTitle": "API anahtarı oluştur",
+			"creating": "Oluşturuluyor...",
+			"done": "Tamam",
+			"nameLabel": "İsim",
+			"namePlaceholder": "CLI scriptim",
+			"warning": "Bu anahtar sadece bir kez gösterilecektir. Lütfen kaydettiğinizden emin olun."
+		},
+		"createFirst": "İlk pastenizi oluşturun",
+		"hiddenBadge": "Gizli",
+		"keysTable": {
+			"lastUsed": "Son Kullanım",
+			"name": "İsim",
+			"prefix": "Ön ek",
+			"status": "Durum"
+		},
+		"lastUsedNever": "asla",
+		"loading": "Yükleniyor...",
+		"newKey": "Yeni anahtar",
+		"noKeys": "Henüz API anahtarı yok.",
+		"noPastes": "Henüz hiçbir paste oluşturmadınız.",
+		"revoked": "İptal edildi",
+		"table": {
+			"created": "Oluşturuldu",
+			"language": "Dil",
+			"title": "Başlık",
+			"views": "Görüntülenmeler",
+			"visibility": "Görünürlük"
+		},
+		"toasts": {
+			"keyRevoked": "Anahtar iptal edildi"
+		},
+		"yourPastes": "Pastelerin"
+	},
+	"docs": {
+		"clickHere": "Buraya tıklayarak",
+		"fallback": "manuel bir şekilde yönlendirilebilirsiniz.",
+		"redirecting": "Dokümantasyona yönlendiriliyorsunuz..."
+	},
+	"header": {
+		"navAdmin": "Admin",
+		"navDashboard": "Panel",
+		"navDocs": "Dokümantasyon",
+		"navNew": "Yeni"
+	},
+	"home": {
+		"burnAfterRead": "Okunduktan sonra sil",
+		"burnAfterReadDescription": "İlk görüntülemeden sonra paste'ı siler.",
+		"bytesCount": "{{current}} / {{max}} byte",
+		"contentPlaceholder": "// içeriğinizi buraya yapıştırın",
+		"expirationLabel": "Sona Erme",
+		"expirations": {
+			"1d": "1 gün",
+			"1h": "1 saat",
+			"1w": "1 hafta",
+			"10m": "10 dakika",
+			"never": "Asla"
+		},
+		"footerAnonymous": "Anonim olarak paylaşılıyor. Bu paste sonsuza kadar salt okunur olacaktır.",
+		"footerSignedIn": "{{name}} olarak giriş yapıldı. Bu paste hesabınıza kaydedilecektir.",
+		"heading": "Düşünce hızında paste paylaşın.",
+		"languageLabel": "Dil",
+		"passwordLabel": "Şifre (isteğe bağlı)",
+		"passwordPlaceholder": "********",
+		"publish": "Paste yayımla",
+		"publishing": "Yayımlanıyor...",
+		"subtitle": "Kodunuzu ve metninizi tek bir göz kırpışında paylaşın. Reklamsız, gizlilik öncelikli, basit ve modern bir pastebin.",
+		"titleLabel": "Başlık",
+		"titlePlaceholder": "başlıksız",
+		"toasts": {
+			"contentRequired": "İçerik gerekli",
+			"contentTooLarge": "İçerik 1MB'ı aşıyor",
+			"created": "Paste oluşturuldu"
+		},
+		"visibilities": {
+			"private": {
+				"description": "Giriş gereklidir (sadece siz görebilirsiniz)",
+				"label": "Gizli"
+			},
+			"public": {
+				"description": "Panelinizde listelenir",
+				"label": "Genel"
+			},
+			"unlisted": {
+				"description": "Sadece linki olan kişiler",
+				"label": "Liste Dışı"
+			}
+		},
+		"visibilityLabel": "Görünürlük",
+		"visibilitySignIn": "Giriş yap"
+	},
+	"languageToggle": {
+		"label": "Dil seçin"
+	},
+	"meta": {
+		"description": "TurboPaste - kodunuzu ve metninizi geleceğin pastebin'i ile paylaşın.",
+		"title": "TurboPaste - modern, geleceğin pastebin'i"
+	},
+	"modeToggle": {
+		"dark": "Karanlık",
+		"label": "Tema değiştir",
+		"light": "Açık",
+		"system": "Sistem"
+	},
+	"paste": {
+		"burnAfterReadBadge": "Okunduktan sonra sil",
+		"copied": "Kopyalandı",
+		"copyLink": "Linki kopyala",
+		"createNew": "Yeni paste oluştur",
+		"expires": "{{date}} tarihinde sona eriyor",
+		"loading": "Yükleniyor...",
+		"loadingPaste": "Paste yükleniyor...",
+		"notFoundDescription": "Bu paste süresi dolmuş veya silinmiş olabilir.",
+		"notFoundTitle": "Paste bulunamadı",
+		"owner": {
+			"cancel": "İptal",
+			"confirmDelete": "Bu paste'i silmek istiyor musunuz? Bu işlem geri alınamaz.",
+			"delete": "Sil",
+			"edit": "Düzenle",
+			"languageLabel": "Dil",
+			"saveChanges": "Değişiklikleri kaydet",
+			"saving": "Kaydediliyor...",
+			"titleLabel": "Başlık",
+			"viewsCount": "{{count}} görüntüleme",
+			"visibilityLabel": "Görünürlük"
+		},
+		"passwordBadge": "Şifre",
+		"passwordGate": {
+			"description": "Bu paste şifre korumalı. Devam etmek için şifreyi girin.",
+			"passwordLabel": "Şifre",
+			"title": "Şifre gerekli",
+			"unlock": "Kilidi aç",
+			"unlocking": "Kilidi açılıyor..."
+		},
+		"reader": {
+			"copyContent": "İçeriği kopyala",
+			"views": "{{count}} görüntüleme"
+		},
+		"reenterPassword": "Şifreyi yeniden gir",
+		"toasts": {
+			"burned": "🔥 Bu paste okunduktan sonra silindi",
+			"deleted": "Paste silindi",
+			"notFound": "Paste bulunamadı veya süresi doldu",
+			"passwordRequired": "Şifre gerekli veya yanlış",
+			"saved": "Kaydedildi"
+		},
+		"untitled": "Başlıksız paste"
+	},
+	"report": {
+		"cancel": "İptal",
+		"detailsLabel": "Detay (isteğe bağlı)",
+		"detailsPlaceholder": "Moderatörler yardımcı olabilecek herhangi bir şey...",
+		"dialogTitle": "Bu paste'i şikayet et",
+		"open": "Bu paste'i şikayet et",
+		"reasonLabel": "Neden",
+		"reasons": {
+			"illegal": "Yasadışı içerik",
+			"malware": "Zararlı yazılım",
+			"other": "Diğer",
+			"personal-info": "Kişisel bilgiler",
+			"phishing": "Oltalama",
+			"spam": "Spam"
+		},
+		"submit": "Şikayet gönder",
+		"submitted": "Şikayet gönderildi, teşekkürler",
+		"submitting": "Gönderiliyor..."
+	},
+	"userMenu": {
+		"myAccount": "Hesabım",
+		"signIn": "Giriş Yap",
+		"signOut": "Çıkış Yap"
+	}
+}

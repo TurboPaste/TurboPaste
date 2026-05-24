@@ -5,6 +5,7 @@ import { Button } from "@turbopaste/ui/components/button";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ShieldX, X } from "lucide-react";
 import { type FC, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
@@ -15,12 +16,13 @@ const AdminPage: FC = () => {
 	);
 	const qc = useQueryClient();
 	const reports = useQuery(trpc.admin.reports.queryOptions({ status }));
+	const { t } = useTranslation();
 
 	const hide = useMutation(
 		trpc.admin.hidePaste.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Paste hidden");
+				toast.success(t("admin.toasts.pasteHidden"));
 				qc.invalidateQueries({
 					queryKey: trpc.admin.reports.queryKey(),
 				});
@@ -31,7 +33,7 @@ const AdminPage: FC = () => {
 		trpc.admin.unhidePaste.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Paste restored");
+				toast.success(t("admin.toasts.pasteRestored"));
 				qc.invalidateQueries({
 					queryKey: trpc.admin.reports.queryKey(),
 				});
@@ -57,10 +59,10 @@ const AdminPage: FC = () => {
 				transition={{ duration: 0.3 }}
 			>
 				<h1 className="font-semibold text-2xl tracking-tight">
-					Moderation
+					{t("admin.title")}
 				</h1>
 				<p className="text-muted-foreground text-sm">
-					Review reported pastes.
+					{t("admin.subtitle")}
 				</p>
 			</motion.div>
 
@@ -76,18 +78,18 @@ const AdminPage: FC = () => {
 						onClick={() => setStatus(s)}
 						type="button"
 					>
-						{s}
+						{t(`admin.filters.${s}`)}
 					</button>
 				))}
 			</div>
 
 			{reports.isLoading ? (
 				<div className="rounded-xl border border-border/60 bg-card/30 p-6 text-muted-foreground text-sm">
-					Loading...
+					{t("admin.loading")}
 				</div>
 			) : !reports.data || reports.data.length === 0 ? (
 				<div className="rounded-xl border border-border/60 border-dashed bg-card/20 p-10 text-center text-muted-foreground">
-					No reports with status “{status}”.
+					{t("admin.empty", { status: t(`admin.filters.${status}`) })}
 				</div>
 			) : (
 				<div className="space-y-3">
@@ -107,7 +109,7 @@ const AdminPage: FC = () => {
 										</Badge>
 										{r.paste.hidden && (
 											<Badge variant="secondary">
-												Hidden
+												{t("admin.hidden")}
 											</Badge>
 										)}
 										<span className="text-muted-foreground text-xs">
@@ -121,7 +123,7 @@ const AdminPage: FC = () => {
 										params={{ id: r.paste.id }}
 										to="/p/$id"
 									>
-										{r.paste.title || "Untitled paste"}
+										{r.paste.title || t("admin.untitled")}
 									</Link>
 									{r.details && (
 										<p className="text-muted-foreground text-sm">
@@ -129,10 +131,12 @@ const AdminPage: FC = () => {
 										</p>
 									)}
 									<p className="text-muted-foreground text-xs">
-										Reporter:{" "}
-										{r.reporter?.email ??
-											r.reporterIp ??
-											"anonymous"}
+										{t("admin.reporter", {
+											value:
+												r.reporter?.email ??
+												r.reporterIp ??
+												t("admin.anonymous"),
+										})}
 									</p>
 								</div>
 								<div className="flex flex-wrap gap-2">
@@ -146,7 +150,8 @@ const AdminPage: FC = () => {
 											size="sm"
 											variant="outline"
 										>
-											<Eye className="size-3.5" /> Unhide
+											<Eye className="size-3.5" />{" "}
+											{t("admin.unhide")}
 										</Button>
 									) : (
 										<Button
@@ -159,7 +164,8 @@ const AdminPage: FC = () => {
 											size="sm"
 											variant="destructive"
 										>
-											<EyeOff className="size-3.5" /> Hide
+											<EyeOff className="size-3.5" />{" "}
+											{t("admin.hide")}
 										</Button>
 									)}
 									{status === "open" && (
@@ -175,7 +181,7 @@ const AdminPage: FC = () => {
 												variant="ghost"
 											>
 												<X className="size-3.5" />{" "}
-												Dismiss
+												{t("admin.dismiss")}
 											</Button>
 											<Button
 												onClick={() =>
@@ -188,7 +194,7 @@ const AdminPage: FC = () => {
 												variant="outline"
 											>
 												<ShieldX className="size-3.5" />{" "}
-												Mark actioned
+												{t("admin.markActioned")}
 											</Button>
 										</>
 									)}

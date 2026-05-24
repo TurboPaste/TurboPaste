@@ -10,6 +10,7 @@ import { Toaster } from "@turbopaste/ui/components/sonner";
 import type { FC } from "react";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
+import i18n from "@/i18n";
 import type { trpc } from "@/utils/trpc";
 
 import "../index.css";
@@ -51,10 +52,9 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 	head: () => ({
 		links: [{ href: "/favicon.ico", rel: "icon" }],
 		meta: [
-			{ title: "TurboPaste - modern, futuristic pastebin" },
+			{ title: i18n.t("meta.title") },
 			{
-				content:
-					"TurboPaste - share code and text with a futuristic pastebin.",
+				content: i18n.t("meta.description"),
 				name: "description",
 			},
 		],

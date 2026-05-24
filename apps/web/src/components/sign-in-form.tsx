@@ -4,6 +4,7 @@ import { Button } from "@turbopaste/ui/components/button";
 import { Input } from "@turbopaste/ui/components/input";
 import { Label } from "@turbopaste/ui/components/label";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import z from "zod";
 import { authClient } from "@/lib/auth-client";
@@ -16,6 +17,7 @@ export const SignInForm: FC<{
 		from: "/",
 	});
 	const { isPending } = authClient.useSession();
+	const { t } = useTranslation();
 
 	const form = useForm({
 		defaultValues: {
@@ -38,17 +40,17 @@ export const SignInForm: FC<{
 						navigate({
 							to: "/dashboard",
 						});
-						toast.success("Sign in successful");
+						toast.success(t("auth.signIn.success"));
 					},
 				},
 			);
 		},
 		validators: {
 			onSubmit: z.object({
-				email: z.email("Invalid email address"),
+				email: z.email(t("auth.signIn.errors.invalidEmail")),
 				password: z
 					.string()
-					.min(8, "Password must be at least 8 characters"),
+					.min(8, t("auth.signIn.errors.passwordTooShort")),
 			}),
 		},
 	});
@@ -58,7 +60,7 @@ export const SignInForm: FC<{
 	return (
 		<div className="mx-auto mt-10 w-full max-w-md p-6">
 			<h1 className="mb-6 text-center font-bold text-3xl">
-				Welcome Back
+				{t("auth.signIn.title")}
 			</h1>
 
 			<form
@@ -73,7 +75,9 @@ export const SignInForm: FC<{
 					<form.Field name="email">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Email</Label>
+								<Label htmlFor={field.name}>
+									{t("auth.signIn.emailLabel")}
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
@@ -101,7 +105,9 @@ export const SignInForm: FC<{
 					<form.Field name="password">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Password</Label>
+								<Label htmlFor={field.name}>
+									{t("auth.signIn.passwordLabel")}
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
@@ -137,7 +143,9 @@ export const SignInForm: FC<{
 							disabled={!canSubmit || isSubmitting}
 							type="submit"
 						>
-							{isSubmitting ? "Submitting..." : "Sign In"}
+							{isSubmitting
+								? t("auth.signIn.submitting")
+								: t("auth.signIn.submit")}
 						</Button>
 					)}
 				</form.Subscribe>
@@ -149,7 +157,7 @@ export const SignInForm: FC<{
 					onClick={onSwitchToSignUp}
 					variant="link"
 				>
-					Need an account? Sign Up
+					{t("auth.signIn.switchToSignUp")}
 				</Button>
 			</div>
 		</div>

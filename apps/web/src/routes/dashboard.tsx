@@ -19,41 +19,50 @@ import {
 	Trash2,
 } from "lucide-react";
 import { type FC, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
 
-const Dashboard: FC = () => (
-	<div className="mx-auto w-full max-w-6xl space-y-10 px-4 py-10">
-		<motion.section
-			animate={{ opacity: 1, y: 0 }}
-			initial={{ opacity: 0, y: 8 }}
-			transition={{ duration: 0.3 }}
-		>
-			<h2 className="mb-3 font-semibold text-xl">Your pastes</h2>
-			<PastesList />
-		</motion.section>
+const Dashboard: FC = () => {
+	const { t } = useTranslation();
+	return (
+		<div className="mx-auto w-full max-w-6xl space-y-10 px-4 py-10">
+			<motion.section
+				animate={{ opacity: 1, y: 0 }}
+				initial={{ opacity: 0, y: 8 }}
+				transition={{ duration: 0.3 }}
+			>
+				<h2 className="mb-3 font-semibold text-xl">
+					{t("dashboard.yourPastes")}
+				</h2>
+				<PastesList />
+			</motion.section>
 
-		<motion.section
-			animate={{ opacity: 1, y: 0 }}
-			initial={{ opacity: 0, y: 8 }}
-			transition={{ delay: 0.05, duration: 0.3 }}
-		>
-			<div className="mb-3 flex items-center justify-between">
-				<h2 className="font-semibold text-xl">API keys</h2>
-			</div>
-			<ApiKeyList />
-		</motion.section>
-	</div>
-);
+			<motion.section
+				animate={{ opacity: 1, y: 0 }}
+				initial={{ opacity: 0, y: 8 }}
+				transition={{ delay: 0.05, duration: 0.3 }}
+			>
+				<div className="mb-3 flex items-center justify-between">
+					<h2 className="font-semibold text-xl">
+						{t("dashboard.apiKeys")}
+					</h2>
+				</div>
+				<ApiKeyList />
+			</motion.section>
+		</div>
+	);
+};
 
 const PastesList: FC = () => {
 	const list = useQuery(trpc.paste.mine.queryOptions());
+	const { t } = useTranslation();
 
 	if (list.isLoading)
 		return (
 			<div className="rounded-xl border border-border/60 bg-card/30 p-6 text-muted-foreground text-sm">
-				Loading...
+				{t("dashboard.loading")}
 			</div>
 		);
 
@@ -61,10 +70,10 @@ const PastesList: FC = () => {
 		return (
 			<div className="rounded-xl border border-border/60 border-dashed bg-card/20 p-10 text-center">
 				<p className="text-muted-foreground">
-					You haven't created any pastes yet.
+					{t("dashboard.noPastes")}
 				</p>
 				<Link className="mt-3 inline-block underline" to="/">
-					Create your first paste
+					{t("dashboard.createFirst")}
 				</Link>
 			</div>
 		);
@@ -74,11 +83,21 @@ const PastesList: FC = () => {
 			<table className="w-full text-sm">
 				<thead className="bg-muted/30 text-left text-muted-foreground text-xs uppercase tracking-wider">
 					<tr>
-						<th className="px-4 py-2.5 font-medium">Title</th>
-						<th className="px-4 py-2.5 font-medium">Language</th>
-						<th className="px-4 py-2.5 font-medium">Visibility</th>
-						<th className="px-4 py-2.5 font-medium">Views</th>
-						<th className="px-4 py-2.5 font-medium">Created</th>
+						<th className="px-4 py-2.5 font-medium">
+							{t("dashboard.table.title")}
+						</th>
+						<th className="px-4 py-2.5 font-medium">
+							{t("dashboard.table.language")}
+						</th>
+						<th className="px-4 py-2.5 font-medium">
+							{t("dashboard.table.visibility")}
+						</th>
+						<th className="px-4 py-2.5 font-medium">
+							{t("dashboard.table.views")}
+						</th>
+						<th className="px-4 py-2.5 font-medium">
+							{t("dashboard.table.created")}
+						</th>
 						<th className="px-4 py-2.5" />
 					</tr>
 				</thead>
@@ -94,14 +113,14 @@ const PastesList: FC = () => {
 									params={{ id: p.id }}
 									to="/p/$id"
 								>
-									{p.title || "Untitled"}
+									{p.title || t("common.untitled")}
 								</Link>
 								{p.hidden && (
 									<Badge
 										className="ml-2"
 										variant="destructive"
 									>
-										Hidden
+										{t("dashboard.hiddenBadge")}
 									</Badge>
 								)}
 							</td>
@@ -135,6 +154,7 @@ const PastesList: FC = () => {
 const ApiKeyList: FC = () => {
 	const qc = useQueryClient();
 	const keys = useQuery(trpc.apiKey.list.queryOptions());
+	const { t } = useTranslation();
 
 	const [createOpen, setCreateOpen] = useState(false);
 	const [name, setName] = useState("");
@@ -155,7 +175,7 @@ const ApiKeyList: FC = () => {
 		trpc.apiKey.revoke.mutationOptions({
 			onError: (e) => toast.error(e.message),
 			onSuccess: () => {
-				toast.success("Key revoked");
+				toast.success(t("dashboard.toasts.keyRevoked"));
 				qc.invalidateQueries({ queryKey: trpc.apiKey.list.queryKey() });
 			},
 		}),
@@ -166,32 +186,32 @@ const ApiKeyList: FC = () => {
 			<div className="overflow-hidden rounded-xl border border-border/60 bg-card/30">
 				<div className="flex items-center justify-between border-border/40 border-b bg-muted/20 px-4 py-2.5">
 					<p className="text-muted-foreground text-xs">
-						Use a key to authenticate against the public API at{" "}
+						{t("dashboard.apiKeyHint")}{" "}
 						<code className="text-foreground">/v1/*</code>
 					</p>
 					<Button onClick={() => setCreateOpen(true)} size="sm">
-						<Plus className="size-3.5" /> New key
+						<Plus className="size-3.5" /> {t("dashboard.newKey")}
 					</Button>
 				</div>
 				{!keys.data || keys.data.length === 0 ? (
 					<div className="p-8 text-center text-muted-foreground text-sm">
-						No API keys yet.
+						{t("dashboard.noKeys")}
 					</div>
 				) : (
 					<table className="w-full text-sm">
 						<thead className="text-left text-muted-foreground text-xs uppercase tracking-wider">
 							<tr>
 								<th className="px-4 py-2.5 font-medium">
-									Name
+									{t("dashboard.keysTable.name")}
 								</th>
 								<th className="px-4 py-2.5 font-medium">
-									Prefix
+									{t("dashboard.keysTable.prefix")}
 								</th>
 								<th className="px-4 py-2.5 font-medium">
-									Last used
+									{t("dashboard.keysTable.lastUsed")}
 								</th>
 								<th className="px-4 py-2.5 font-medium">
-									Status
+									{t("dashboard.keysTable.status")}
 								</th>
 								<th className="px-4 py-2.5" />
 							</tr>
@@ -213,16 +233,16 @@ const ApiKeyList: FC = () => {
 											? new Date(
 													k.lastUsedAt,
 												).toLocaleString()
-											: "never"}
+											: t("dashboard.lastUsedNever")}
 									</td>
 									<td className="px-4 py-3">
 										{k.revokedAt ? (
 											<Badge variant="destructive">
-												Revoked
+												{t("dashboard.revoked")}
 											</Badge>
 										) : (
 											<Badge variant="success">
-												Active
+												{t("dashboard.active")}
 											</Badge>
 										)}
 									</td>
@@ -233,7 +253,9 @@ const ApiKeyList: FC = () => {
 												onClick={() => {
 													if (
 														confirm(
-															"Revoke this API key?",
+															t(
+																"dashboard.confirmRevoke",
+															),
 														)
 													) {
 														revoke.mutate({
@@ -264,14 +286,15 @@ const ApiKeyList: FC = () => {
 			>
 				<DialogHeader>
 					<DialogTitle>
-						{createdKey ? "Copy your API key" : "Create API key"}
+						{createdKey
+							? t("dashboard.createDialog.copyTitle")
+							: t("dashboard.createDialog.createTitle")}
 					</DialogTitle>
 				</DialogHeader>
 				{createdKey ? (
 					<div className="space-y-3">
 						<p className="text-muted-foreground text-sm">
-							This is the only time you'll see this key. Store it
-							somewhere safe.
+							{t("dashboard.createDialog.warning")}
 						</p>
 						<div className="flex items-center gap-2 rounded-md border border-border bg-muted/40 px-3 py-2 font-mono text-xs">
 							<code className="flex-1 break-all">
@@ -302,7 +325,7 @@ const ApiKeyList: FC = () => {
 									setCreatedKey(null);
 								}}
 							>
-								Done
+								{t("dashboard.createDialog.done")}
 							</Button>
 						</div>
 					</div>
@@ -316,11 +339,15 @@ const ApiKeyList: FC = () => {
 						}}
 					>
 						<div className="space-y-1.5">
-							<Label>Name</Label>
+							<Label>
+								{t("dashboard.createDialog.nameLabel")}
+							</Label>
 							<Input
 								autoFocus
 								onChange={(e) => setName(e.target.value)}
-								placeholder="My CLI script"
+								placeholder={t(
+									"dashboard.createDialog.namePlaceholder",
+								)}
 								value={name}
 							/>
 						</div>
@@ -330,7 +357,7 @@ const ApiKeyList: FC = () => {
 								type="button"
 								variant="ghost"
 							>
-								Cancel
+								{t("dashboard.createDialog.cancel")}
 							</Button>
 							<Button
 								disabled={create.isPending || !name.trim()}
@@ -338,8 +365,8 @@ const ApiKeyList: FC = () => {
 							>
 								<KeyRound className="size-3.5" />
 								{create.isPending
-									? "Creating..."
-									: "Create key"}
+									? t("dashboard.createDialog.creating")
+									: t("dashboard.createDialog.create")}
 							</Button>
 						</div>
 					</form>
