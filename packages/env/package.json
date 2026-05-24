@@ -1,0 +1,21 @@
+{
+	"dependencies": {
+		"@t3-oss/env-core": "^0.13.11",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@turbopaste/config": "workspace:*",
+		"@types/node": "catalog:",
+		"typescript": "catalog:"
+	},
+	"exports": {
+		"./server": "./src/server.ts",
+		"./web": "./src/web.ts"
+	},
+	"license": "AGPL-3.0-or-later",
+	"name": "@turbopaste/env",
+	"private": true,
+	"type": "module",
+	"version": "0.0.0"
+}
