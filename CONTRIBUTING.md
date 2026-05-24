@@ -29,7 +29,13 @@ pnpm dev
 
 - Branch off `main`. Name branches `<type>/<short-slug>`, e.g. `feat/burn-after-read`, `fix/expiration-tz-bug`.
 - Keep commits focused. Prefer small, reviewable PRs over large multi-feature ones.
-- Commit messages don't need to follow Conventional Commits, but the PR title should be clear and present-tense ("Add password rotation endpoint", not "added password rotation").
+- **PR titles must follow [Conventional Commits](https://www.conventionalcommits.org/)** because PRs are squash-merged and the title becomes the commit message on `main`, which release-please reads to drive versioning and the changelog. A CI check enforces the format. Examples:
+  - `feat: add password rotation endpoint`
+  - `fix: prevent expired pastes from being viewed via cached link`
+  - `docs: clarify burn-after-read semantics in the API reference`
+  - `chore: bump biome to 2.5`
+  - Breaking changes get a `!` after the type: `feat!: rename /v1/snippets to /v1/pastes`.
+- Individual commits inside a branch don't need to follow the format (they're squashed away), but it doesn't hurt.
 
 ## Pull request checklist
 
@@ -78,7 +84,14 @@ If you add a new page, also update the sidebar in `apps/docs/astro.config.mjs`.
 
 ## Releasing
 
-Maintainers cut releases by tagging a commit on `main` with `vX.Y.Z` (semver). The [release workflow](./.github/workflows/release.yml) publishes a GitHub Release whose notes are generated automatically from merged PRs, categorized by label via [`.github/release.yml`](./.github/release.yml). Tags containing a `-` (e.g. `v1.0.0-beta.1`) are marked as pre-releases.
+Releases are automated with [release-please](https://github.com/googleapis/release-please) via [`.github/workflows/release-please.yml`](./.github/workflows/release-please.yml). Contributors don't tag anything by hand, the bot does the work as long as PR titles are conventional.
+
+The flow:
+
+1. PRs are merged into `main` with Conventional Commit titles.
+2. release-please-bot keeps an open **release PR** on `main` that bumps versions across all workspace `package.json` files, updates [`CHANGELOG.md`](./CHANGELOG.md), and updates [`.release-please-manifest.json`](./.release-please-manifest.json).
+3. Each new conventional commit merged into `main` updates the release PR in place. `feat:` bumps the version, `fix:` and most others appear in the changelog under their section.
+4. When a maintainer **merges the release PR**, release-please tags the commit (`vX.Y.Z`), creates a GitHub Release with the generated notes, and the release PR closes.
 
 There's no published npm package, the monorepo is consumed by self-hosters who deploy from source.
 

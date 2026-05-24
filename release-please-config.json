@@ -1,0 +1,96 @@
+{
+	"$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+	"bump-minor-pre-major": true,
+	"bump-patch-for-minor-pre-major": false,
+	"changelog-sections": [
+		{
+			"section": "🚀 Features",
+			"type": "feat"
+		},
+		{
+			"section": "🐛 Bug fixes",
+			"type": "fix"
+		},
+		{
+			"section": "⚡ Performance",
+			"type": "perf"
+		},
+		{
+			"section": "♻️ Refactoring",
+			"type": "refactor"
+		},
+		{
+			"section": "📖 Documentation",
+			"type": "docs"
+		},
+		{
+			"hidden": false,
+			"section": "🧰 Build",
+			"type": "build"
+		},
+		{
+			"hidden": false,
+			"section": "🤖 CI",
+			"type": "ci"
+		},
+		{
+			"hidden": false,
+			"section": "🧹 Maintenance",
+			"type": "chore"
+		},
+		{
+			"section": "🔒 Dependencies",
+			"type": "deps"
+		},
+		{
+			"section": "⏪ Reverts",
+			"type": "revert"
+		},
+		{
+			"hidden": true,
+			"section": "🧪 Tests",
+			"type": "test"
+		},
+		{
+			"hidden": true,
+			"section": "💄 Style",
+			"type": "style"
+		}
+	],
+	"include-v-in-tag": true,
+	"packages": {
+		".": {
+			"extra-files": [
+				{
+					"jsonpath": "$.version",
+					"path": "apps/docs/package.json",
+					"type": "json"
+				},
+				{
+					"jsonpath": "$.version",
+					"path": "apps/web/package.json",
+					"type": "json"
+				},
+				{
+					"jsonpath": "$.version",
+					"path": "packages/config/package.json",
+					"type": "json"
+				},
+				{
+					"jsonpath": "$.version",
+					"path": "packages/env/package.json",
+					"type": "json"
+				},
+				{
+					"jsonpath": "$.version",
+					"path": "packages/ui/package.json",
+					"type": "json"
+				}
+			],
+			"package-name": "turbopaste"
+		}
+	},
+	"prerelease": true,
+	"prerelease-type": "beta",
+	"release-type": "simple"
+}

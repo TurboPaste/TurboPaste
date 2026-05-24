@@ -1,6 +1,20 @@
 <!--
 Thanks for sending a PR! Please fill in the sections below.
 For larger changes, consider opening an issue first to align on the approach.
+
+PR title MUST follow Conventional Commits:
+  feat: short description       (new user-facing feature, bumps version)
+  fix: short description        (bug fix, bumps version)
+  docs: short description       (documentation only)
+  refactor: short description   (internal change, no user-visible behavior)
+  perf: short description       (performance improvement)
+  build: short description      (build system / dependencies)
+  ci: short description         (GitHub Actions / workflows)
+  chore: short description      (everything else)
+  feat!: short description      (breaking change, bumps major)
+
+The PR title becomes the squash-merge commit message that release-please
+reads to decide the next version and write the changelog.
 -->
 
 # Pull Request Template
@@ -13,17 +27,9 @@ For larger changes, consider opening an issue first to align on the approach.
 
 <!-- Link issues this closes or relates to, e.g. "Closes #123". -->
 
-## Type of change
-
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Refactor / internal change (no user-visible behavior)
-- [ ] Documentation
-- [ ] Build / CI / tooling
-- [ ] Breaking change
-
 ## Checklist
 
+- [ ] PR title follows Conventional Commits (`feat:`, `fix:`, `docs:`, etc.)
 - [ ] `pnpm check` passes (Biome lint + format)
 - [ ] `pnpm check-types` passes
 - [ ] `pnpm build` passes
