@@ -1,0 +1,35 @@
+{
+	"dependencies": {
+		"@hono/node-server": "^2.0.4",
+		"@hono/trpc-server": "^0.4.2",
+		"@trpc/server": "catalog:",
+		"@turbopaste/api": "workspace:*",
+		"@turbopaste/auth": "workspace:*",
+		"@turbopaste/db": "workspace:*",
+		"@turbopaste/env": "workspace:*",
+		"better-auth": "catalog:",
+		"dotenv": "catalog:",
+		"evlog": "^2.17.0",
+		"hono": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@turbopaste/config": "workspace:*",
+		"@types/node": "catalog:",
+		"tsdown": "^0.22.0",
+		"tsx": "^4.22.3",
+		"typescript": "catalog:"
+	},
+	"license": "AGPL-3.0-or-later",
+	"main": "src/index.ts",
+	"name": "server",
+	"private": true,
+	"scripts": {
+		"build": "tsdown",
+		"check-types": "tsc -b",
+		"compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+		"dev": "tsx watch src/index.ts",
+		"start": "node dist/index.mjs"
+	},
+	"type": "module"
+}

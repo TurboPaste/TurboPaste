@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx",
+		"outDir": "dist",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"extends": "@turbopaste/config/tsconfig.base.json"
+}
