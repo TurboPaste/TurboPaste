@@ -1,0 +1,26 @@
+{
+	"dependencies": {
+		"@turbopaste/db": "workspace:*",
+		"@turbopaste/env": "workspace:*",
+		"better-auth": "catalog:",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@turbopaste/config": "workspace:*",
+		"typescript": "catalog:"
+	},
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"license": "AGPL-3.0-or-later",
+	"name": "@turbopaste/auth",
+	"private": true,
+	"scripts": {},
+	"type": "module"
+}
