@@ -1,0 +1,49 @@
+---
+title: TurboPaste
+description: A futuristic pastebin with syntax highlighting, expirations, password protection, and a public REST API.
+template: splash
+hero:
+    tagline: Paste at the speed of thought.
+    actions:
+        - text: Quickstart
+          link: /quickstart/
+          icon: right-arrow
+        - text: Public API
+          link: /api/overview/
+          icon: external
+          variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+## What is TurboPaste?
+
+TurboPaste is a modern pastebin built on a TypeScript monorepo (Hono + tRPC + Prisma + Postgres + TanStack Router). It supports anonymous pastes, account-bound pastes that can be edited later, password protection, expirations, burn-after-read, and a clean REST API for automation.
+
+<CardGrid>
+    <Card title="Anonymous or signed-in" icon="seti:ignored">
+        Anyone can publish a paste. Sign in to edit your pastes later and to use private visibility.
+    </Card>
+    <Card title="Syntax highlighting" icon="seti:typescript">
+        Shiki-powered highlighting across 30+ languages with VS Code-grade themes.
+    </Card>
+    <Card title="Password & burn-after-read" icon="seti:lock">
+        Protect a paste with a password or have it self-destruct after the first view.
+    </Card>
+    <Card title="Public REST API" icon="seti:json">
+        Authenticate with per-user API keys and integrate TurboPaste with anything.
+    </Card>
+    <Card title="Built-in moderation" icon="warning">
+        Anyone can report a paste. Admins triage reports from a dedicated dashboard.
+    </Card>
+    <Card title="Vercel-inspired UI" icon="rocket">
+        Dark-first, glassy, with subtle motion. Built on Tailwind + shadcn-style primitives.
+    </Card>
+</CardGrid>
+
+## Where to go next
+
+- [Quickstart](/quickstart/): publish your first paste in 60 seconds.
+- [Creating pastes](/guides/creating-pastes/): walk through every option in the editor.
+- [Public API](/api/overview/): automate paste creation, fetching, and reporting.
+- [Self-hosting](/reference/self-hosting/): run TurboPaste on your own infrastructure.

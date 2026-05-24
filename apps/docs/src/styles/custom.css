@@ -1,0 +1,37 @@
+:root {
+	--sl-font: "Geist", ui-sans-serif, system-ui, sans-serif;
+	--sl-font-mono:
+		"Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root[data-theme="dark"] {
+	--sl-color-accent-low: #1a1a1a;
+	--sl-color-accent: #ffffff;
+	--sl-color-accent-high: #ffffff;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #f4f4f5;
+	--sl-color-gray-2: #c4c4c7;
+	--sl-color-gray-3: #8b8b8f;
+	--sl-color-gray-4: #545458;
+	--sl-color-gray-5: #2a2a2c;
+	--sl-color-gray-6: #19191b;
+	--sl-color-black: #000000;
+	--sl-color-bg: #000000;
+	--sl-color-bg-nav: rgba(0, 0, 0, 0.6);
+	--sl-color-bg-sidebar: #000000;
+}
+
+:root[data-theme="light"] {
+	--sl-color-accent-low: #f4f4f5;
+	--sl-color-accent: #0a0a0a;
+	--sl-color-accent-high: #000000;
+}
+
+body {
+	font-feature-settings: "ss01", "cv11";
+}
+
+.hero h1,
+.sl-markdown-content h1 {
+	letter-spacing: -0.02em;
+}

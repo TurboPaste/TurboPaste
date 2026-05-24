@@ -1,0 +1,19 @@
+{
+	"dependencies": {
+		"@astrojs/starlight": "^0.39.2",
+		"astro": "^6.3.7",
+		"sharp": "^0.34.5"
+	},
+	"license": "AGPL-3.0-or-later",
+	"name": "docs",
+	"private": true,
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"dev": "astro dev",
+		"preview": "astro preview",
+		"start": "astro dev"
+	},
+	"type": "module",
+	"version": "0.0.0"
+}
