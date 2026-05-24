@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"paths": {
+			"@turbopaste/ui/*": ["./src/*"]
+		}
+	},
+	"exclude": ["node_modules"],
+	"extends": "@turbopaste/config/tsconfig.base.json",
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
+}
