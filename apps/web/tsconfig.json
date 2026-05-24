@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@turbopaste/ui/*": ["../../packages/ui/src/*"]
+		},
+		"rootDirs": ["."],
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ESNext",
+		"types": ["vite/client"]
+	}
+}
