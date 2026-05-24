@@ -1,0 +1,65 @@
+name: Feature request
+description: Suggest a new feature or improvement.
+title: "feat: <short description>"
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Before filing, please skim [existing issues](https://github.com/TurboPaste/TurboPaste/issues?q=is%3Aissue) and [discussions](https://github.com/TurboPaste/TurboPaste/discussions) since your request may already be tracked.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the use case first, not the solution. "I want X so that Y."
+      placeholder: As an admin moderating reports, I want to bulk-resolve duplicates so that the queue stays manageable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How would you like it to work? Mockups, API sketches, and code examples are welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you ruled out, and why.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - apps/web (frontend)
+        - apps/server (Hono, tRPC, REST)
+        - apps/docs (Starlight)
+        - packages/api (shared routers)
+        - packages/auth (Better Auth)
+        - packages/db (Prisma schema)
+        - packages/ui
+        - Build / CI / tooling
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Are you willing to help land this?
+      options:
+        - label: I'd be open to opening a PR for this if a maintainer agrees on the approach.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and discussions and didn't find a duplicate.
+          required: true

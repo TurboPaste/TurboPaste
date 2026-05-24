@@ -1,0 +1,97 @@
+name: Bug report
+description: Something in TurboPaste is broken or behaves unexpectedly.
+title: "bug: <short description>"
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! Please fill in as much of the form as you can since vague reports are hard to act on.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear, concise description of the bug.
+      placeholder: When I click Publish on a paste with an expiration of 1d, the resulting page shows...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps that reliably reproduce the bug.
+      placeholder: |
+        1. Open <http://localhost:3001>
+        2. Paste the following content: ...
+        3. Set expiration to "1 day"
+        4. Click Publish
+        5. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: The paste should be reachable for 24h and then 404.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - apps/web (frontend)
+        - apps/server (Hono, tRPC, REST)
+        - apps/docs (Starlight)
+        - packages/api (shared routers)
+        - packages/auth (Better Auth)
+        - packages/db (Prisma schema)
+        - packages/ui
+        - Build / CI / tooling
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit / version
+      description: Output of `git rev-parse --short HEAD`, or the release tag you're running.
+      placeholder: e.g. 3899d31, or v0.2.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, pnpm version, browser (if a frontend bug), Postgres version.
+      placeholder: |
+        - OS: macOS 14.4 / Windows 11 / Ubuntu 22.04
+        - Node: 20.11.0
+        - pnpm: 11.3.0
+        - Postgres: 16 (docker compose)
+        - Browser: Firefox 124
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / screenshots
+      description: Server logs, browser console errors, screenshots. Redact anything sensitive.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched [existing issues](https://github.com/TurboPaste/TurboPaste/issues?q=is%3Aissue) and didn't find a duplicate.
+          required: true
