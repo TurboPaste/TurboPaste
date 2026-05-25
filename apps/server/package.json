@@ -9,7 +9,7 @@
 		"@turbopaste/env": "workspace:*",
 		"better-auth": "catalog:",
 		"dotenv": "catalog:",
-		"evlog": "^2.17.0",
+		"evlog": "^2.18.1",
 		"hono": "catalog:",
 		"zod": "catalog:"
 	},
