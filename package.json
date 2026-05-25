@@ -56,6 +56,7 @@
 		"db:down": "turbo -F @turbopaste/db db:down",
 		"db:generate": "turbo -F @turbopaste/db db:generate",
 		"db:migrate": "turbo -F @turbopaste/db db:migrate",
+		"db:pull": "turbo -F @turbopaste/db db:pull",
 		"db:push": "turbo -F @turbopaste/db db:push",
 		"db:start": "turbo -F @turbopaste/db db:start",
 		"db:stop": "turbo -F @turbopaste/db db:stop",
