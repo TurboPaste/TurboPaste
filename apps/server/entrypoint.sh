@@ -3,7 +3,7 @@
 set -e
 
 echo "Running database migrations..."
-node ./node_modules/prisma/build/index.js migrate deploy --schema ./prisma/schema
+prisma migrate deploy
 
 echo "Starting server..."
 exec node dist/index.mjs
