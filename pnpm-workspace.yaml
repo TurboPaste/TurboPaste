@@ -1,12 +1,14 @@
 packages:
     - apps/*
     - packages/*
+injectWorkspacePackages: true
 allowBuilds:
     esbuild: true
     msw: true
     sharp: true
     "@prisma/engines": true
     prisma: true
+    '@turbopaste/db': true
 catalog:
     dotenv: ^17.4.2
     zod: ^4.4.3
