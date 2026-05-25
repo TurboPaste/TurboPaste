@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Run release-please
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@v5
         with:
           # PAT used instead of GITHUB_TOKEN so the bot can open PRs even when
           # the "Allow GitHub Actions to create and approve pull requests" org
