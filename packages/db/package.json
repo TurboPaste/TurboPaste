@@ -25,9 +25,11 @@
 	"name": "@turbopaste/db",
 	"private": true,
 	"scripts": {
+		"db:deploy": "prisma migrate deploy",
 		"db:down": "docker compose down",
 		"db:generate": "prisma generate",
 		"db:migrate": "prisma migrate dev",
+		"db:pull": "prisma db pull",
 		"db:push": "prisma db push",
 		"db:start": "docker compose up -d",
 		"db:stop": "docker compose stop",

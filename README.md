@@ -39,13 +39,27 @@ TurboPaste is a modern pastebin built on a TypeScript monorepo scaffolded with [
 
 ## Quick start
 
-### Prerequisites
+### Run it with Docker
+
+If you only want to use TurboPaste (not hack on it), the bundled Compose stack is the shortest path:
+
+```bash
+git clone https://github.com/TurboPaste/TurboPaste.git
+cd TurboPaste
+docker compose up -d --build
+```
+
+That brings up Postgres, the server (`:3000`), web (`:3001`), and docs (`:4321`). The server's entrypoint runs `prisma migrate deploy` on every start, so `docker compose pull && docker compose up -d` is all you need after a release. Override `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CORS_ORIGIN`, `VITE_SERVER_URL`, and `VITE_DOCS_URL` via environment variables, see [the self-hosting docs](apps/docs/src/content/docs/reference/self-hosting.md#docker-compose).
+
+### Develop locally
+
+#### Prerequisites
 
 - [Node.js](https://nodejs.org) **20+**
 - [pnpm](https://pnpm.io) **11+**
 - [Docker](https://www.docker.com) (only if you don't already have Postgres)
 
-### Set it up
+#### Set it up
 
 ```bash
 # 1. Clone
@@ -97,14 +111,14 @@ Full reference including auth, errors, rate limits, every endpoint, lives in [`a
 
 ## Self-hosting
 
-| What you're deploying | Build                   | Serve                                     |
-| --------------------- | ----------------------- | ----------------------------------------- |
-| `apps/server`         | `pnpm -F server build`  | `node apps/server/dist/index.mjs`         |
-| `apps/web`            | `pnpm -F web build`     | Any static host (Caddy, nginx, Vercel...) |
-| `apps/docs`           | `pnpm -F docs build`    | Any static host                           |
-| Postgres              | -                       | Any Postgres 14+                          |
+| What you're deploying | Build                   | Serve                                     | Docker image                |
+| --------------------- | ----------------------- | ----------------------------------------- | --------------------------- |
+| `apps/server`         | `pnpm -F server build`  | `node apps/server/dist/index.mjs`         | `apps/server/Dockerfile`    |
+| `apps/web`            | `pnpm -F web build`     | Any static host (Caddy, nginx, Vercel...) | `apps/web/Dockerfile`       |
+| `apps/docs`           | `pnpm -F docs build`    | Any static host                           | `apps/docs/Dockerfile`      |
+| Postgres              | -                       | Any Postgres 14+                          | `postgres:17-alpine`        |
 
-Required env vars and CORS / cookie gotchas: see [`apps/docs/src/content/docs/reference/self-hosting.md`](apps/docs/src/content/docs/reference/self-hosting.md).
+The repo ships a root `docker-compose.yml` that wires all four services together. Required env vars, CORS / cookie gotchas, and the Compose recipe are in [`apps/docs/src/content/docs/reference/self-hosting.md`](apps/docs/src/content/docs/reference/self-hosting.md).
 
 ## Available scripts
 
@@ -119,6 +133,7 @@ Required env vars and CORS / cookie gotchas: see [`apps/docs/src/content/docs/re
 | `pnpm db:start`       | `docker compose up -d` for Postgres          |
 | `pnpm db:push`        | Sync Prisma schema to the database           |
 | `pnpm db:migrate`     | Create + apply a migration                   |
+| `pnpm db:deploy`      | Apply pending migrations in production       |
 | `pnpm db:studio`      | Open Prisma Studio                           |
 
 ## Documentation

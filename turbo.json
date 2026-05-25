@@ -9,6 +9,9 @@
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},
+		"db:deploy": {
+			"cache": false
+		},
 		"db:down": {
 			"cache": false
 		},
@@ -18,6 +21,9 @@
 		"db:migrate": {
 			"cache": false,
 			"persistent": true
+		},
+		"db:pull": {
+			"cache": false
 		},
 		"db:push": {
 			"cache": false

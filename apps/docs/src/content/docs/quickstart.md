@@ -5,6 +5,16 @@ description: Run TurboPaste locally and publish your first paste in under a minu
 
 This guide gets you from a fresh clone to a published paste in your local browser.
 
+:::tip[Just want to run it?]
+If you don't plan to hack on TurboPaste, skip the per-app setup and use the bundled Docker stack:
+
+```bash
+docker compose up -d --build
+```
+
+That brings up Postgres, the server (`:3000`), the web app (`:3001`), and the docs site (`:4321`). Migrations run automatically on every container start. See [Self-hosting - Docker Compose](/reference/self-hosting/#docker-compose) for env-var overrides.
+:::
+
 ## Prerequisites
 
 - Node.js 20+
