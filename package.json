@@ -53,6 +53,7 @@
 		"build": "turbo build",
 		"check": "biome check --write .",
 		"check-types": "turbo check-types",
+		"db:deploy": "turbo -F @turbopaste/db db:deploy",
 		"db:down": "turbo -F @turbopaste/db db:down",
 		"db:generate": "turbo -F @turbopaste/db db:generate",
 		"db:migrate": "turbo -F @turbopaste/db db:migrate",

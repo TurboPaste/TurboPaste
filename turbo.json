@@ -9,6 +9,9 @@
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},
+		"db:deploy": {
+			"cache": false
+		},
 		"db:down": {
 			"cache": false
 		},
