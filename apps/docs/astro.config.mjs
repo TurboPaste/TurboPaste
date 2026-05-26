@@ -4,6 +4,9 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
 	integrations: [
 		starlight({
+			components: {
+				Footer: "./src/components/Footer.astro",
+			},
 			customCss: ["./src/styles/custom.css"],
 			description:
 				"A futuristic pastebin with syntax highlighting, expirations, password protection, and a public REST API.",

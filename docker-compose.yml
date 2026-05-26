@@ -16,6 +16,16 @@ services:
       retries: 5
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   server:
     build:
       context: .
@@ -25,11 +35,14 @@ services:
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:password@postgres:5432/turbopaste
+      REDIS_URL: redis://redis:6379
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-kZ0D2CHpOdwV4kbMzjTEFKQhJsx37Va5LpRuOtlfBJE=}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://127.0.0.1:3000}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://127.0.0.1:3001}
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped
 

@@ -91,13 +91,22 @@ If you're running the server via the bundled Docker image, you don't need to inv
 
 The `prisma.config.ts` reads `DATABASE_URL` from `apps/server/.env` by default, adjust the `dotenv.config({ path: ... })` call if your prod environment provides env vars directly.
 
-## Rate limiting at scale
+## Redis (optional)
 
-The default rate limiter is in-process. Behind a load balancer with N server instances the effective per-key budget becomes `N x limit`. If that's too generous, swap the in-memory map in `apps/server/src/public-api.ts` for a Redis-backed counter, the interface (`rateCheck(subject, limit)`) is small enough that the change is local. Maybe a future release will include a Redis rate limiter out of the box.
+Setting `REDIS_URL` on the server turns on two things:
+
+1. **Public API rate limiter:** The default in-process counter is per-replica, so behind a load balancer with N instances the effective budget is `N x limit`. With Redis the counter is shared across replicas using an atomic check-then-increment Lua script. If Redis is unreachable the limiter fails open and falls back to the in-memory counter on that instance, quota fairness degrades but the API stays up.
+2. **Better Auth secondary storage:** Sessions and Better Auth's built-in rate limiter move to Redis instead of Postgres. Sessions are still mirrored to Postgres (`storeSessionInDatabase: true`) so a Redis restart does not lose them, but reads go through Redis. Unlike the API rate limiter this is **not** fail-open: if Redis is unreachable, users cannot authenticate.
+
+```sh
+REDIS_URL=redis://localhost:6379
+```
+
+The bundled `docker-compose.yml` ships a `redis:7-alpine` service that the server is wired to out of the box. For a single-replica deploy Redis is optional; for HA / multi-replica it's effectively required.
 
 ## Backups
 
-Back up Postgres regularly. That's the entire stateful surface, paste content, hashes, reports, API keys all live there. There is no object storage, no Redis, no file uploads.
+Back up Postgres regularly. That's the entire durable surface, paste content, hashes, reports, API keys, and (when Redis is enabled) the canonical copy of sessions all live there. There is no object storage or file uploads. Redis only holds rate-limit counters and a session cache, all with TTLs, so it does not need to be backed up.
 
 ## Images / Dockerfiles
 

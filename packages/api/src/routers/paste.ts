@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import prisma from "@turbopaste/db";
+import { removeProperties } from "remove-properties";
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../index";
 import {
@@ -36,9 +37,9 @@ const createInput = z.object({
 });
 
 const publicPaste = <T extends { passwordHash: string | null }>(p: T) => {
-	const { passwordHash, ...rest } = p;
+	const clean = removeProperties(p, ["passwordHash"]);
 
-	return { ...rest, hasPassword: !!passwordHash };
+	return { ...clean, hasPassword: !!p.passwordHash };
 };
 
 export const pasteRouter = router({
@@ -76,9 +77,8 @@ export const pasteRouter = router({
 				select: { userId: true },
 				where: { id: input.id },
 			});
-			if (!paste || paste.userId !== ctx.session.user.id) {
+			if (!paste || paste.userId !== ctx.session.user.id)
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
 
 			await prisma.paste.delete({ where: { id: input.id } });
 
@@ -91,34 +91,31 @@ export const pasteRouter = router({
 			const paste = await prisma.paste.findUnique({
 				where: { id: input.id },
 			});
-			if (!paste || paste.hidden) {
+			if (!paste || paste.hidden)
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
 
 			if (isExpired(paste.expiresAt)) {
 				await prisma.paste
 					.delete({ where: { id: paste.id } })
 					.catch(() => {});
+
 				throw new TRPCError({ code: "NOT_FOUND" });
 			}
 
 			const isOwner =
 				ctx.session?.user.id && ctx.session.user.id === paste.userId;
-			if (paste.visibility === "private" && !isOwner) {
+			if (paste.visibility === "private" && !isOwner)
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
 
-			if (paste.passwordHash && !isOwner) {
+			if (paste.passwordHash && !isOwner)
 				if (
 					!input.password ||
 					!verifyPassword(input.password, paste.passwordHash)
-				) {
+				)
 					throw new TRPCError({
 						code: "UNAUTHORIZED",
 						message: "Password required",
 					});
-				}
-			}
 
 			if (paste.burnAfterRead && !isOwner) {
 				await prisma.paste.delete({ where: { id: paste.id } });
@@ -153,9 +150,8 @@ export const pasteRouter = router({
 				},
 				where: { id: input.id },
 			});
-			if (!paste || paste.hidden || isExpired(paste.expiresAt)) {
+			if (!paste || paste.hidden || isExpired(paste.expiresAt))
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
 
 			return publicPaste(paste);
 		}),
@@ -227,27 +223,27 @@ export const pasteRouter = router({
 				select: { userId: true },
 				where: { id: input.id },
 			});
-			if (!existing || existing.userId !== ctx.session.user.id) {
+			if (!existing || existing.userId !== ctx.session.user.id)
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
-
-			const data: Record<string, unknown> = {};
-			if (input.content !== undefined) data.content = input.content;
-			if (input.title !== undefined) data.title = input.title;
-			if (input.language !== undefined) data.language = input.language;
-			if (input.visibility !== undefined)
-				data.visibility = input.visibility;
-			if (input.burnAfterRead !== undefined)
-				data.burnAfterRead = input.burnAfterRead;
-			if (input.expiration !== undefined)
-				data.expiresAt = expirationToDate(input.expiration);
-			if (input.password !== undefined)
-				data.passwordHash = input.password
-					? hashPassword(input.password)
-					: null;
 
 			return prisma.paste.update({
-				data,
+				data: {
+					burnAfterRead: input.burnAfterRead,
+					content: input.content,
+					expiresAt:
+						input.expiration === undefined
+							? undefined
+							: expirationToDate(input.expiration),
+					language: input.language,
+					passwordHash:
+						input.password === undefined
+							? undefined
+							: input.password
+								? hashPassword(input.password)
+								: null,
+					title: input.title,
+					visibility: input.visibility,
+				},
 				select: { id: true, updatedAt: true },
 				where: { id: input.id },
 			});

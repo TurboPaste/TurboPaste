@@ -4,6 +4,7 @@
 		"@turbopaste/env": "workspace:*",
 		"better-auth": "catalog:",
 		"dotenv": "catalog:",
+		"ioredis": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {

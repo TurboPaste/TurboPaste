@@ -10,8 +10,15 @@ import {
 	verifyPassword,
 } from "@turbopaste/api/lib/paste";
 import prisma from "@turbopaste/db";
+import { env } from "@turbopaste/env/server";
 import { Hono } from "hono";
+import { removeProperties } from "remove-properties";
 import { z } from "zod";
+import {
+	createRateLimiter,
+	RATE_LIMIT_ANON,
+	RATE_LIMIT_AUTHED,
+} from "./lib/rate-limit";
 
 type AuthVariables = {
 	apiKeyId: string | null;
@@ -53,35 +60,7 @@ const reportSchema = z.object({
 	reason: z.enum(REPORT_REASONS),
 });
 
-const rateBuckets = new Map<string, { count: number; resetAt: number }>();
-const RATE_WINDOW_MS = 60_000;
-const RATE_LIMIT_AUTHED = 120;
-const RATE_LIMIT_ANON = 20;
-
-const rateCheck = (key: string, limit: number) => {
-	const now = Date.now();
-	const bucket = rateBuckets.get(key);
-	if (!bucket || bucket.resetAt <= now) {
-		rateBuckets.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
-
-		return {
-			allowed: true,
-			remaining: limit - 1,
-			resetAt: now + RATE_WINDOW_MS,
-		};
-	}
-
-	if (bucket.count >= limit)
-		return { allowed: false, remaining: 0, resetAt: bucket.resetAt };
-
-	bucket.count += 1;
-
-	return {
-		allowed: true,
-		remaining: limit - bucket.count,
-		resetAt: bucket.resetAt,
-	};
-};
+const rateCheck = createRateLimiter(env.REDIS_URL);
 
 const extractKey = (
 	authHeader: string | undefined,
@@ -116,11 +95,10 @@ const publicPaste = (p: {
 	userId: string | null;
 	views?: number;
 	visibility: string;
-}) => {
-	const { passwordHash, ...rest } = p;
-
-	return { ...rest, hasPassword: !!passwordHash };
-};
+}) => ({
+	...removeProperties(p, ["passwordHash"]),
+	hasPassword: !!p.passwordHash,
+});
 
 export const createPublicApi = () => {
 	const app = new Hono<{ Variables: AuthVariables }>();
@@ -136,9 +114,8 @@ export const createPublicApi = () => {
 				select: { id: true, revokedAt: true, userId: true },
 				where: { hash: hashApiKey(key) },
 			});
-			if (!record || record.revokedAt) {
+			if (!record || record.revokedAt)
 				return c.json({ error: "invalid_api_key" }, 401);
-			}
 
 			c.set("apiKeyId", record.id);
 			c.set("userId", record.userId);
@@ -156,7 +133,7 @@ export const createPublicApi = () => {
 
 		const subject = c.get("userId") ?? clientIp(c.req.raw.headers);
 		const limit = c.get("userId") ? RATE_LIMIT_AUTHED : RATE_LIMIT_ANON;
-		const result = rateCheck(subject, limit);
+		const result = await rateCheck(subject, limit);
 
 		c.header("X-RateLimit-Limit", String(limit));
 		c.header("X-RateLimit-Remaining", String(result.remaining));
@@ -303,9 +280,8 @@ export const createPublicApi = () => {
 			select: { userId: true },
 			where: { id },
 		});
-		if (!existing || existing.userId !== userId) {
+		if (!existing || existing.userId !== userId)
 			return c.json({ error: "not_found" }, 404);
-		}
 
 		let body: unknown;
 		try {
@@ -331,21 +307,26 @@ export const createPublicApi = () => {
 				413,
 			);
 
-		const data: Record<string, unknown> = {};
-		if (input.content !== undefined) data.content = input.content;
-		if (input.title !== undefined) data.title = input.title;
-		if (input.language !== undefined) data.language = input.language;
-		if (input.visibility !== undefined) data.visibility = input.visibility;
-		if (input.burnAfterRead !== undefined)
-			data.burnAfterRead = input.burnAfterRead;
-		if (input.expiration !== undefined)
-			data.expiresAt = expirationToDate(input.expiration);
-		if (input.password !== undefined)
-			data.passwordHash = input.password
-				? hashPassword(input.password)
-				: null;
-
-		const updated = await prisma.paste.update({ data, where: { id } });
+		const updated = await prisma.paste.update({
+			data: {
+				burnAfterRead: input.burnAfterRead,
+				content: input.content,
+				expiresAt:
+					input.expiration === undefined
+						? undefined
+						: expirationToDate(input.expiration),
+				language: input.language,
+				passwordHash:
+					input.password === undefined
+						? undefined
+						: input.password
+							? hashPassword(input.password)
+							: null,
+				title: input.title,
+				visibility: input.visibility,
+			},
+			where: { id },
+		});
 
 		return c.json(publicPaste(updated));
 	});

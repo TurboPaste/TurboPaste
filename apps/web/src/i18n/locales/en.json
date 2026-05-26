@@ -108,6 +108,11 @@
 		"fallback": "if it doesn't happen automatically.",
 		"redirecting": "Redirecting to the docs..."
 	},
+	"footer": {
+		"copyright": "© {{year}} TurboPaste",
+		"privacy": "Privacy",
+		"terms": "Terms"
+	},
 	"header": {
 		"navAdmin": "Admin",
 		"navDashboard": "Dashboard",
@@ -217,6 +222,16 @@
 		},
 		"untitled": "Untitled paste"
 	},
+	"privacy": {
+		"contactBody": "Contact the operator of this TurboPaste instance for privacy questions or data removal requests.",
+		"contactTitle": "Contact",
+		"dataBody": "Pastes you publish (content, title, language, visibility, expiration, optional password hash). If you sign in, your account email and a hashed password. API keys you create.",
+		"dataTitle": "What we store",
+		"intro": "TurboPaste is open source and meant to be self-hosted. This page describes the defaults shipped with the project; the operator of this instance may apply additional terms.",
+		"moderationBody": "Reports submitted against pastes are stored so moderators can review them.",
+		"moderationTitle": "Moderation",
+		"title": "Privacy Policy"
+	},
 	"report": {
 		"cancel": "Cancel",
 		"detailsLabel": "Details (optional)",
@@ -235,6 +250,16 @@
 		"submit": "Submit report",
 		"submitted": "Report submitted — thank you",
 		"submitting": "Sending..."
+	},
+	"terms": {
+		"availabilityBody": "TurboPaste is open source software provided without warranty under AGPL-3.0-or-later. The operator may modify, suspend, or discontinue the service at any time.",
+		"availabilityTitle": "Availability",
+		"intro": "By using this TurboPaste instance you agree to these terms. The operator may apply additional terms.",
+		"moderationBody": "Pastes that violate the acceptable use policy may be hidden or removed without notice. Reports can be filed from each paste.",
+		"moderationTitle": "Moderation",
+		"title": "Terms of Service",
+		"useBody": "Do not use TurboPaste to share illegal content, malware, phishing material, spam, or other people's private information without consent.",
+		"useTitle": "Acceptable use"
 	},
 	"userMenu": {
 		"myAccount": "My Account",

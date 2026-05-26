@@ -108,6 +108,11 @@
 		"fallback": "manuel bir şekilde yönlendirilebilirsiniz.",
 		"redirecting": "Dokümantasyona yönlendiriliyorsunuz..."
 	},
+	"footer": {
+		"copyright": "© {{year}} TurboPaste",
+		"privacy": "Gizlilik",
+		"terms": "Kullanım Koşulları"
+	},
 	"header": {
 		"navAdmin": "Admin",
 		"navDashboard": "Panel",
@@ -217,6 +222,16 @@
 		},
 		"untitled": "Başlıksız paste"
 	},
+	"privacy": {
+		"contactBody": "Gizlilikle ilgili sorular veya veri silme talepleri için bu TurboPaste örneğinin operatörüyle iletişime geçin.",
+		"contactTitle": "İletişim",
+		"dataBody": "Yayınladığınız paste'ler (içerik, başlık, dil, görünürlük, sona erme tarihi, isteğe bağlı şifre özeti). Giriş yaparsanız hesap e-postanız ve şifrenizin özet hali. Oluşturduğunuz API anahtarları.",
+		"dataTitle": "Sakladığımız veriler",
+		"intro": "TurboPaste açık kaynaklıdır ve kendi sunucunuzda barındırılmak üzere tasarlanmıştır. Bu sayfa projenin varsayılan ayarlarını açıklar; bu örneğin operatörü ek koşullar uygulayabilir.",
+		"moderationBody": "Paste'ler hakkında gönderilen şikayetler, moderatörlerin inceleyebilmesi için saklanır.",
+		"moderationTitle": "Moderasyon",
+		"title": "Gizlilik Politikası"
+	},
 	"report": {
 		"cancel": "İptal",
 		"detailsLabel": "Detay (isteğe bağlı)",
@@ -235,6 +250,16 @@
 		"submit": "Şikayet gönder",
 		"submitted": "Şikayet gönderildi, teşekkürler",
 		"submitting": "Gönderiliyor..."
+	},
+	"terms": {
+		"availabilityBody": "TurboPaste, AGPL-3.0-or-later lisansı altında garantisiz olarak sunulan açık kaynak bir yazılımdır. Operatör hizmeti istediği zaman değiştirebilir, askıya alabilir veya sonlandırabilir.",
+		"availabilityTitle": "Hizmetin sürekliliği",
+		"intro": "Bu TurboPaste örneğini kullanarak bu koşulları kabul etmiş olursunuz. Operatör ek koşullar uygulayabilir.",
+		"moderationBody": "Kullanım koşullarını ihlal eden paste'ler bildirim yapılmaksızın gizlenebilir veya silinebilir. Her paste sayfasından şikayet gönderebilirsiniz.",
+		"moderationTitle": "Moderasyon",
+		"title": "Kullanım Koşulları",
+		"useBody": "TurboPaste'i yasadışı içerik, zararlı yazılım, oltalama, spam veya başkalarının izni olmayan özel bilgilerini paylaşmak için kullanmayın.",
+		"useTitle": "Kabul edilebilir kullanım"
 	},
 	"userMenu": {
 		"myAccount": "Hesabım",
