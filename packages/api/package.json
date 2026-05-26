@@ -8,6 +8,7 @@
 		"@turbopaste/env": "workspace:*",
 		"dotenv": "catalog:",
 		"nanoid": "^5.1.11",
+		"remove-properties": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
