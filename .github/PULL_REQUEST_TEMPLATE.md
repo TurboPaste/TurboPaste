@@ -2,7 +2,12 @@
 Thanks for sending a PR! Please fill in the sections below.
 For larger changes, consider opening an issue first to align on the approach.
 
-PR title MUST follow Conventional Commits:
+Every commit on this branch MUST follow Conventional Commits, because PRs
+are merged into main without squashing, each commit lands on main verbatim
+and release-please reads them to decide the next version and write the
+changelog. The PR title should also follow the format (a CI check enforces
+it), but the per-commit messages are what drive releases.
+
   feat: short description       (new user-facing feature, bumps version)
   fix: short description        (bug fix, bumps version)
   docs: short description       (documentation only)
@@ -12,9 +17,6 @@ PR title MUST follow Conventional Commits:
   ci: short description         (GitHub Actions / workflows)
   chore: short description      (everything else)
   feat!: short description      (breaking change, bumps major)
-
-The PR title becomes the squash-merge commit message that release-please
-reads to decide the next version and write the changelog.
 -->
 
 # Pull Request Template
@@ -29,7 +31,8 @@ reads to decide the next version and write the changelog.
 
 ## Checklist
 
-- [ ] PR title follows Conventional Commits (`feat:`, `fix:`, `docs:`, etc.)
+- [ ] Every commit on this branch follows Conventional Commits (`feat:`, `fix:`, `docs:`, etc.), fixup commits cleaned up with `git rebase -i`
+- [ ] PR title also follows Conventional Commits
 - [ ] `pnpm check` passes (Biome lint + format)
 - [ ] `pnpm check-types` passes
 - [ ] `pnpm build` passes

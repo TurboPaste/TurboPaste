@@ -29,13 +29,14 @@ pnpm dev
 
 - Branch off `main`. Name branches `<type>/<short-slug>`, e.g. `feat/burn-after-read`, `fix/expiration-tz-bug`.
 - Keep commits focused. Prefer small, reviewable PRs over large multi-feature ones.
-- **PR titles must follow [Conventional Commits](https://www.conventionalcommits.org/)** because PRs are squash-merged and the title becomes the commit message on `main`, which release-please reads to drive versioning and the changelog. A CI check enforces the format. Examples:
+- **Every commit must follow [Conventional Commits](https://www.conventionalcommits.org/).** PRs are merged into `main` without squashing, so each commit lands on `main` verbatim and release-please reads them to drive versioning and the changelog. Examples:
   - `feat: add password rotation endpoint`
   - `fix: prevent expired pastes from being viewed via cached link`
   - `docs: clarify burn-after-read semantics in the API reference`
   - `chore: bump biome to 2.5`
   - Breaking changes get a `!` after the type: `feat!: rename /v1/snippets to /v1/pastes`.
-- Individual commits inside a branch don't need to follow the format (they're squashed away), but it doesn't hurt.
+- The **PR title** should also follow Conventional Commits, a CI check enforces this and it keeps the PR list scannable, but the load-bearing thing for releases is the per-commit messages.
+- If a branch has fixup/work-in-progress commits, clean them up with `git rebase -i` before merging so only the final, meaningful commits land on `main`.
 
 ## Pull request checklist
 
@@ -80,7 +81,7 @@ If you add a new page, also update the sidebar in `apps/docs/astro.config.mjs`.
 
 - Maintainers will try to acknowledge new PRs within a few days. We're a small project; please be patient.
 - We may request changes, that's normal. Push additional commits to the same branch; don't force-push unless asked.
-- PRs are merged with **Squash and merge** to keep `main` linear.
+- PRs are **merged directly into `main` without squashing**, so the branch's commit history is preserved on `main`. Make sure every commit on the branch follows Conventional Commits (see above) and represents a meaningful unit of change — clean up fixup commits with `git rebase -i` before requesting review.
 
 ## Releasing
 
@@ -88,9 +89,9 @@ Releases are automated with [release-please](https://github.com/googleapis/relea
 
 The flow:
 
-1. PRs are merged into `main` with Conventional Commit titles.
+1. PRs are merged into `main` without squashing, so each branch commit lands on `main` with its Conventional Commit message intact.
 2. release-please-bot keeps an open **release PR** on `main` that bumps versions across all workspace `package.json` files, updates [`CHANGELOG.md`](./CHANGELOG.md), and updates [`.release-please-manifest.json`](./.release-please-manifest.json).
-3. Each new conventional commit merged into `main` updates the release PR in place. `feat:` bumps the version, `fix:` and most others appear in the changelog under their section.
+3. Every new conventional commit on `main` updates the release PR in place. `feat:` bumps the version, `fix:` and most others appear in the changelog under their section.
 4. When a maintainer **merges the release PR**, release-please tags the commit (`vX.Y.Z`), creates a GitHub Release with the generated notes, and the release PR closes.
 
 There's no published npm package, the monorepo is consumed by self-hosters who deploy from source.
