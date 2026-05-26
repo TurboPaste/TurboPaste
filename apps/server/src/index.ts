@@ -5,10 +5,7 @@ import { appRouter } from "@turbopaste/api/routers/index";
 import { auth } from "@turbopaste/auth";
 import { env } from "@turbopaste/env/server";
 import { initLogger } from "evlog";
-import {
-	type BetterAuthInstance,
-	createAuthMiddleware,
-} from "evlog/better-auth";
+import { createAuthMiddleware } from "evlog/better-auth";
 import { type EvlogVariables, evlog } from "evlog/hono";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -18,7 +15,7 @@ initLogger({
 	env: { service: "turbopaste-server" },
 });
 
-const identifyUser = createAuthMiddleware(auth as BetterAuthInstance, {
+const identifyUser = createAuthMiddleware(auth, {
 	exclude: ["/api/auth/**"],
 	maskEmail: true,
 });
@@ -61,9 +58,7 @@ app.use(
 
 app.route("/v1", createPublicApi());
 
-app.get("/", (c) => {
-	return c.text("OK");
-});
+app.get("/", (c) => c.text("OK"));
 
 serve(
 	{
