@@ -24,9 +24,7 @@ export const EXPIRATION_OPTIONS = {
 
 export type ExpirationKey = keyof typeof EXPIRATION_OPTIONS;
 
-export const generatePasteId = () => {
-	return newPasteId();
-};
+export const generatePasteId = () => newPasteId();
 
 export const hashPassword = (password: string) => {
 	const salt = randomBytes(16).toString("hex");

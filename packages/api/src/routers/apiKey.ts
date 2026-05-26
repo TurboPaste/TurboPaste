@@ -45,9 +45,8 @@ export const apiKeyRouter = router({
 				select: { userId: true },
 				where: { id: input.id },
 			});
-			if (!key || key.userId !== ctx.session.user.id) {
+			if (!key || key.userId !== ctx.session.user.id)
 				throw new TRPCError({ code: "NOT_FOUND" });
-			}
 
 			await prisma.apiKey.update({
 				data: { revokedAt: new Date() },
