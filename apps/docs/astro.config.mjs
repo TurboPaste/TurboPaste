@@ -7,6 +7,27 @@ export default defineConfig({
 			customCss: ["./src/styles/custom.css"],
 			description:
 				"A futuristic pastebin with syntax highlighting, expirations, password protection, and a public REST API.",
+			favicon: "/favicon-dark.svg",
+			head: [
+				{
+					attrs: {
+						href: "/favicon-light.svg",
+						media: "(prefers-color-scheme: light)",
+						rel: "icon",
+						type: "image/svg+xml",
+					},
+					tag: "link",
+				},
+				{
+					attrs: {
+						href: "/favicon-dark.svg",
+						media: "(prefers-color-scheme: dark)",
+						rel: "icon",
+						type: "image/svg+xml",
+					},
+					tag: "link",
+				},
+			],
 			sidebar: [
 				{
 					items: [

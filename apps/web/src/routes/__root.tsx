@@ -50,7 +50,20 @@ const RootComponent: FC = () => {
 export const Route = createRootRouteWithContext<RouterAppContext>()({
 	component: RootComponent,
 	head: () => ({
-		links: [{ href: "/favicon.ico", rel: "icon" }],
+		links: [
+			{
+				href: "/favicon-light.svg",
+				media: "(prefers-color-scheme: light)",
+				rel: "icon",
+				type: "image/svg+xml",
+			},
+			{
+				href: "/favicon-dark.svg",
+				media: "(prefers-color-scheme: dark)",
+				rel: "icon",
+				type: "image/svg+xml",
+			},
+		],
 		meta: [
 			{ title: i18n.t("meta.title") },
 			{
