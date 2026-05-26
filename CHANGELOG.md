@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.0.1](https://github.com/TurboPaste/TurboPaste/compare/turbopaste-v1.0.0...turbopaste-v1.0.1) (2026-05-26)
+
+
+### 📖 Documentation
+
+* document docker images and compose-based self-hosting ([218d587](https://github.com/TurboPaste/TurboPaste/commit/218d58718d11bf9d8e9b51b90570b2b71161dba8))
+
+
+### 🤖 CI
+
+* upgrade github actions using actions-up ([898acea](https://github.com/TurboPaste/TurboPaste/commit/898aceafdad6315c42f5fd977d1a551f68f503e4))
+* upgrade github actions using actions-up ([3ca908b](https://github.com/TurboPaste/TurboPaste/commit/3ca908b0c7f0d633d753a95d221cda5a177340cc))
+
+
+### 🧹 Maintenance
+
+* add .dockerignore ([3be4fdb](https://github.com/TurboPaste/TurboPaste/commit/3be4fdbdecbed3dc198b826a016133f8cde3017d))
+* add db:deploy script for applying migrations in production ([00f0df8](https://github.com/TurboPaste/TurboPaste/commit/00f0df85bf39e2d45af3fbd57a7720c64e137be9))
+* add Docker image and nginx config for docs app ([27e645b](https://github.com/TurboPaste/TurboPaste/commit/27e645b7666a589e944298d113045c974f3357f5))
+* add Docker image, and runtime entrypoint for server app ([f1fe7f1](https://github.com/TurboPaste/TurboPaste/commit/f1fe7f13f53164c86ac67904f7d4a5dcf95fab97))
+* add Docker image, nginx config, and runtime entrypoint for web app ([50ceb22](https://github.com/TurboPaste/TurboPaste/commit/50ceb22ed06f4230c9c557f750367f0c38dab820))
+* add Docker images ([cf64764](https://github.com/TurboPaste/TurboPaste/commit/cf64764ad0ad52afd8cec0195633b6d092ecfbbf))
+* add initial Prisma migration and db:pull script ([25e11e2](https://github.com/TurboPaste/TurboPaste/commit/25e11e2c8db0f7c87bbe8b97b3816c672c376105))
+* add root docker-compose for postgres, server, web, and docs ([5d273b9](https://github.com/TurboPaste/TurboPaste/commit/5d273b9c362a9abf7d4635df76d2cd853cf0366a))
+* broaden .gitignore env file patterns ([501703f](https://github.com/TurboPaste/TurboPaste/commit/501703fbf5f19dc8704bcca4f94b7369cc951d63))
+* enable pnpm workspace package injection and allow @turbopaste/db builds ([923b119](https://github.com/TurboPaste/TurboPaste/commit/923b119d6ffc313ebb51bfb325b3ac835b793b15))
+* replace noExternal with deps.alwaysBundle in tsdown config ([026b8b8](https://github.com/TurboPaste/TurboPaste/commit/026b8b81c66a5805cd5d80fca76292d2c2deb094))
+* run prisma migrate deploy on server container startup ([27951f3](https://github.com/TurboPaste/TurboPaste/commit/27951f3fd89ea4003254662612310eecc8b0f584))
+* tsdown always bundle turbopaste ([45a511a](https://github.com/TurboPaste/TurboPaste/commit/45a511aee641bf802551db9d0c36c6d3f67935c9))
+* use branding favicons across web and docs apps ([aa2efb1](https://github.com/TurboPaste/TurboPaste/commit/aa2efb13253c3f3ef4798646fabad62240dd6f61))
+
 ## 1.0.0 (2026-05-24)
 
 
