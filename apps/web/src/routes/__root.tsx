@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Toaster } from "@turbopaste/ui/components/sonner";
 import type { FC } from "react";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import i18n from "@/i18n";
@@ -35,6 +36,7 @@ const RootComponent: FC = () => {
 					<main className="flex-1">
 						<Outlet />
 					</main>
+					<Footer />
 				</div>
 				<Toaster richColors theme="dark" />
 			</ThemeProvider>
