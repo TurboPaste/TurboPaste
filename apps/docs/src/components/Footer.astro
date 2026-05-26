@@ -1,0 +1,40 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+
+const webUrl = import.meta.env.PUBLIC_WEB_URL ?? "";
+const year = new Date().getFullYear();
+---
+
+<Default><slot /></Default>
+<footer class="tp-site-footer">
+	<span>© {year} TurboPaste</span>
+	<nav>
+		<a href={`${webUrl}/privacy`}>Privacy</a>
+		<a href={`${webUrl}/terms`}>Terms</a>
+	</nav>
+</footer>
+
+<style>
+	.tp-site-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--sl-color-hairline);
+		color: var(--sl-color-gray-3);
+		font-size: var(--sl-text-sm);
+	}
+	.tp-site-footer nav {
+		display: flex;
+		gap: 1rem;
+	}
+	.tp-site-footer a {
+		color: inherit;
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+	.tp-site-footer a:hover {
+		color: var(--sl-color-white);
+	}
+</style>
